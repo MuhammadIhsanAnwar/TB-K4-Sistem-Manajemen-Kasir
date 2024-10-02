@@ -1,4 +1,3 @@
 # forecast-dashboard
 
-user = admin
-pass = password
+user = admin, pass = password
