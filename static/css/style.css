@@ -1,0 +1,65 @@
+body.login-body {
+    background-color: #41a0ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding-bottom: 100px;
+    flex-direction: column; /* Mengatur arah flex menjadi kolom */
+}
+
+.logo-title {
+    text-align: center; /* Memusatkan logo dan judul */
+    margin-bottom: 20px; /* Jarak antara logo/judul dan card */
+}
+
+.login-card {
+    width: 90%; /* Mengatur lebar agar responsif */
+    max-width: 400px; /* Lebar maksimal */
+    padding: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 10px; /* Sudut yang lebih halus */
+    background-color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Bayangan lebih dalam */
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.content {
+    margin-top: 20px;
+}
+
+.chart-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+.chart {
+    width: 100%; /* Mengatur lebar grafik agar 100% */
+    height: 400px; /* Tinggi tetap */
+}
+
+.table-container {
+    margin-top: 30px; /* Jarak tabel dari grafik */
+}
+
+@media (max-width: 768px) {
+    .login-card {
+        width: 95%; /* Lebar lebih kecil di layar kecil */
+    }
+}
