@@ -64,10 +64,13 @@ def dashboard():
     line_data = df['Luas_panen'].tolist()  
     pie_data = [{'name': row['Provinsi'], 'y': row['Produksi']} for index, row in df.iterrows()]  
     area_data = df['Curah_hujan'].tolist()  
+    provinsi =  df['Provinsi'].tolist()
+
 
     dataset = df.to_dict(orient='records') 
 
-    return render_template('dashboard.html', bar_data=bar_data, line_data=line_data, pie_data=pie_data, area_data=area_data, dataset=dataset)
+    return render_template('dashboard.html', bar_data=bar_data, line_data=line_data, pie_data=pie_data, area_data=area_data,  provinsi=provinsi, dataset=dataset)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
