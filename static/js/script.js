@@ -14,6 +14,7 @@ const barData = JSON.parse(document.getElementById('barData').textContent);
 const lineData = JSON.parse(document.getElementById('lineData').textContent);
 const pieData = JSON.parse(document.getElementById('pieData').textContent); // Data untuk Pie Chart
 const areaData = JSON.parse(document.getElementById('areaData').textContent); // Data untuk Area Chart
+const provinsi = JSON.parse(document.getElementById('provinsi').textContent);
 
 // Membuat grafik bar menggunakan Highcharts
 Highcharts.chart('barChart', {
@@ -24,7 +25,7 @@ Highcharts.chart('barChart', {
         text: 'Produksi per Provinsi' // Judul grafik
     },
     xAxis: {
-        categories: ['Aceh', 'Sumatera Utara'] // Ganti dengan kategori dari provinsi Anda
+        categories: provinsi // Ganti dengan kategori dari provinsi Anda
     },
     yAxis: {
         min: 0,
@@ -47,7 +48,7 @@ Highcharts.chart('lineChart', {
         text: 'Luas Panen per Provinsi' // Judul grafik
     },
     xAxis: {
-        categories: ['Aceh', 'Sumatera Utara'] // Ganti dengan kategori dari provinsi Anda
+        categories: provinsi // Ganti dengan kategori dari provinsi Anda
     },
     yAxis: {
         title: {
@@ -88,7 +89,7 @@ Highcharts.chart('areaChart', {
         text: 'Curah Hujan per Provinsi' // Judul grafik
     },
     xAxis: {
-        categories: ['Aceh', 'Sumatera Utara'] // Ganti dengan kategori dari provinsi Anda
+        categories: provinsi // Ganti dengan kategori dari provinsi Anda
     },
     yAxis: {
         title: {
