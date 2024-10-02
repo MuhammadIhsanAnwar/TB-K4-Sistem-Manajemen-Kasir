@@ -12,102 +12,98 @@ setTimeout(() => {
 // Ambil data dari elemen JSON
 const barData = JSON.parse(document.getElementById('barData').textContent);
 const lineData = JSON.parse(document.getElementById('lineData').textContent);
-const pieData = JSON.parse(document.getElementById('pieData').textContent); // Data untuk Pie Chart
-const areaData = JSON.parse(document.getElementById('areaData').textContent); // Data untuk Area Chart
+const pieData = JSON.parse(document.getElementById('pieData').textContent);  
+const areaData = JSON.parse(document.getElementById('areaData').textContent);  
 const provinsi = JSON.parse(document.getElementById('provinsi').textContent);
-
-// Membuat grafik bar menggunakan Highcharts
+ 
 Highcharts.chart('barChart', {
     chart: {
-        type: 'column' // Jenis grafik kolom
+        type: 'column'  
     },
     title: {
-        text: 'Produksi per Provinsi' // Judul grafik
+        text: 'Produksi per Provinsi'  
     },
     xAxis: {
-        categories: provinsi // Ganti dengan kategori dari provinsi Anda
+        categories: provinsi  
     },
     yAxis: {
         min: 0,
         title: {
-            text: 'Produksi' // Judul sumbu y
+            text: 'Produksi'  
         }
     },
     series: [{
-        name: 'Produksi', // Nama seri
-        data: barData, // Data dari elemen JSON
-        color: 'rgba(54, 162, 235, 0.2)', // Warna latar belakang
-        borderColor: 'rgba(54, 162, 235, 1)', // Warna border
-        borderWidth: 1 // Lebar border
+        name: 'Produksi', 
+        data: barData, 
+        color: 'rgba(54, 162, 235, 0.2)', 
+        borderColor: 'rgba(54, 162, 235, 1)', 
+        borderWidth: 1  
     }]
-});
+}); 
 
-// Membuat grafik garis menggunakan Highcharts
 Highcharts.chart('lineChart', {
     title: {
-        text: 'Luas Panen per Provinsi' // Judul grafik
+        text: 'Luas Panen per Provinsi' 
     },
     xAxis: {
-        categories: provinsi // Ganti dengan kategori dari provinsi Anda
+        categories: provinsi 
     },
     yAxis: {
         title: {
-            text: 'Luas Panen' // Judul sumbu y
+            text: 'Luas Panen'    
         }
     },
     series: [{
-        name: 'Luas Panen', // Nama seri
-        data: lineData, // Data dari elemen JSON
-        type: 'line', // Jenis grafik garis
+        name: 'Luas Panen', 
+        data: lineData,  
+        type: 'line',  
         fill: false,
-        color: 'rgba(255, 99, 132, 1)', // Warna garis
-        lineWidth: 2 // Lebar garis
+        color: 'rgba(255, 99, 132, 1)',  
+        lineWidth: 2  
     }]
 });
-
-// Membuat grafik pie menggunakan Highcharts
+ 
 Highcharts.chart('pieChart', {
     chart: {
-        type: 'pie' // Jenis grafik pie
+        type: 'pie'  
     },
     title: {
-        text: 'Distribusi Produksi per Provinsi' // Judul grafik
+        text: 'Distribusi Produksi per Provinsi'  
     },
     series: [{
         name: 'Produksi',
-        data: pieData, // Data dari elemen JSON
-        colorByPoint: true // Warna berdasarkan poin
+        data: pieData,  
+        colorByPoint: true  
     }]
 });
 
-// Membuat grafik area menggunakan Highcharts
 Highcharts.chart('areaChart', {
     chart: {
-        type: 'area' // Jenis grafik area
+        type: 'area'  
     },
     title: {
-        text: 'Curah Hujan per Provinsi' // Judul grafik
+        text: 'Curah Hujan per Provinsi'  
     },
     xAxis: {
-        categories: provinsi // Ganti dengan kategori dari provinsi Anda
+        categories: provinsi  
     },
     yAxis: {
         title: {
-            text: 'Curah Hujan' // Judul sumbu y
+            text: 'Curah Hujan'  
         }
     },
     series: [{
-        name: 'Curah Hujan', // Nama seri
-        data: areaData, // Data dari elemen JSON
+        name: 'Curah Hujan',  
+        data: areaData, 
         fillColor: {
-            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, // Gradien warna
+            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, 
             stops: [
-                [0, 'rgba(255, 99, 132, 1)'], // Warna atas
-                [1, 'rgba(255, 99, 132, 0.1)'] // Warna bawah
+                [0, 'rgba(255, 99, 132, 1)'],  
+                [1, 'rgba(255, 99, 132, 0.1)']  
             ]
         },
         marker: {
-            enabled: false // Menonaktifkan marker
+            enabled: false  
         }
     }]
 });
