@@ -1,9 +1,10 @@
 from flask import Flask, render_template, redirect, url_for, flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, DateField
 from wtforms.validators import DataRequired
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 import pandas as pd
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'secret'
@@ -28,6 +29,10 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+class DateFilterForm(FlaskForm):
+    date = DateField('Tanggal', format='%Y-%m-%d', validators=[DataRequired()]) 
+    submit = SubmitField('Filter')
 
 @app.route('/')
 def default():
@@ -55,22 +60,54 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('login'))
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    df = pd.read_csv('static/data/data_padi.csv')
+    df = pd.read_csv('static/data/losses.csv')
 
-    bar_data = df['Produksi'].tolist()  
-    line_data = df['Luas_panen'].tolist()  
-    pie_data = [{'name': row['Provinsi'], 'y': row['Produksi']} for index, row in df.iterrows()]  
-    area_data = df['Curah_hujan'].tolist()  
-    provinsi =  df['Provinsi'].tolist()
+    df['DATE_FOSS_ANALYSIS'] = pd.to_datetime(df['DATE_FOSS_ANALYSIS'], format='%d/%m/%Y', errors='coerce')
 
+    form = DateFilterForm()
 
-    dataset = df.to_dict(orient='records') 
+    if form.validate_on_submit():
+        selected_date = form.date.data  
+        print("Tanggal yang dipilih:", selected_date)
 
-    return render_template('dashboard.html', bar_data=bar_data, line_data=line_data, pie_data=pie_data, area_data=area_data,  provinsi=provinsi, dataset=dataset)
+        filtered_df = df[df['DATE_FOSS_ANALYSIS'].dt.date == selected_date] 
 
+        print("DataFrame setelah filter:")
+        print(filtered_df)
+
+        if filtered_df.empty:
+            flash('No data found for the selected date', 'warning')
+        else:
+            df = filtered_df
+    else:
+        print("Form is invalid:", form.errors)
+
+    df['DATE_FOSS_ANALYSIS'] = df['DATE_FOSS_ANALYSIS'].dt.strftime('%d/%m/%Y')
+
+    pks_code = df['PKS_CODE'].tolist()
+    pks_name = df['PKS_NAME'].tolist()
+    norma_ap = df['NORMA_AMPAS_PRESS'].tolist()
+    losis_ap = df['LOSIS_%_AMPAS_PRESS'].tolist()
+    norma_bj = df['NORMA_BIJI'].tolist()
+    losis_bj = df['LOSIS_%_BIJI'].tolist()
+    norma_tk = df['NORMA_TANDAN_KOSONG'].tolist()
+    losis_tk = df['LOSIS_%_TANDAN_KOSONG'].tolist()
+    norma_da = df['NORMA_DRAB_AKHIR'].tolist()
+    losis_da = df['LOSIS_%_DRAB_AKHIR'].tolist()
+    norma_sd = df['NORMA_SOLID_DECANTER'].tolist()
+    losis_sd = df['LOSIS_%_SOLID_DECANTER'].tolist()
+    norma_pks = df['NORMA_PKS_PER_DATE'].tolist()
+    losis_pks = df['LOSIS_PKS'].tolist()
+
+    dataset = df.to_dict(orient='records')
+    columns = df.columns.tolist()
+
+    return render_template('dashboard.html', form=form, pks_code=pks_code, pks_name=pks_name, norma_ap=norma_ap, losis_ap=losis_ap, 
+                           norma_bj=norma_bj, losis_bj=losis_bj, norma_tk=norma_tk, losis_tk=losis_tk, norma_da=norma_da, losis_da=losis_da, 
+                           norma_sd=norma_sd, losis_sd=losis_sd, norma_pks=norma_pks, losis_pks=losis_pks, dataset=dataset, columns=columns)
 
 if __name__ == '__main__':
     app.run(debug=True)
