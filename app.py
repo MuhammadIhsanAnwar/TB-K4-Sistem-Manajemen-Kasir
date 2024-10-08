@@ -31,7 +31,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class DateFilterForm(FlaskForm):
-    date = DateField('Tanggal', format='%Y-%m-%d', validators=[DataRequired()]) 
+    date = DateField('Tanggal', format='%Y-%m-%d', validators=[DataRequired()])
     submit = SubmitField('Filter')
 
 @app.route('/')
@@ -66,24 +66,21 @@ def dashboard():
     df = pd.read_csv('static/data/losses.csv')
 
     df['DATE_FOSS_ANALYSIS'] = pd.to_datetime(df['DATE_FOSS_ANALYSIS'], format='%d/%m/%Y', errors='coerce')
-
+    latest_date = df['DATE_FOSS_ANALYSIS'].max()
+    
     form = DateFilterForm()
+    if form.date.data is None:
+        form.date.data = latest_date.date()
 
     if form.validate_on_submit():
-        selected_date = form.date.data  
-        print("Tanggal yang dipilih:", selected_date)
-
-        filtered_df = df[df['DATE_FOSS_ANALYSIS'].dt.date == selected_date] 
-
-        print("DataFrame setelah filter:")
-        print(filtered_df)
+        selected_date = form.date.data
+        
+        filtered_df = df[df['DATE_FOSS_ANALYSIS'].dt.date == selected_date]
 
         if filtered_df.empty:
             flash('No data found for the selected date', 'warning')
         else:
             df = filtered_df
-    else:
-        print("Form is invalid:", form.errors)
 
     df['DATE_FOSS_ANALYSIS'] = df['DATE_FOSS_ANALYSIS'].dt.strftime('%d/%m/%Y')
 
