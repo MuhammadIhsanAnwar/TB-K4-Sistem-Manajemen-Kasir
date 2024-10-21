@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, flash, request, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, DateField
 from wtforms.validators import DataRequired
@@ -12,7 +12,8 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 # Dummy user data
-users = {'admin': 'password'}
+users = {'admin': 'admin',  'user': 'user'}
+
 
 class User(UserMixin):
     def __init__(self, username):
@@ -32,7 +33,6 @@ class LoginForm(FlaskForm):
 
 class DateFilterForm(FlaskForm):
     date = DateField('Tanggal', format='%Y-%m-%d', validators=[DataRequired()])
-    submit = SubmitField('Filter')
 
 @app.route('/')
 def default():
@@ -51,11 +51,14 @@ def login():
             return redirect(url_for('dashboard'))
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
+
+    session['just_logged_in'] = True
     return render_template('login.html', form=form)
 
 @app.route('/logout')
 @login_required
 def logout():
+    session.pop('just_logged_in', None)
     logout_user()
     flash('You have been logged out.', 'info')
     return redirect(url_for('login'))
@@ -63,12 +66,16 @@ def logout():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
+    just_logged_in = session.pop('just_logged_in', None)
     df = pd.read_csv('static/data/losses.csv')
 
     df['DATE_FOSS_ANALYSIS'] = pd.to_datetime(df['DATE_FOSS_ANALYSIS'], format='%d/%m/%Y', errors='coerce')
     latest_date = df['DATE_FOSS_ANALYSIS'].max()
     
     form = DateFilterForm()
+    if request.method == 'GET':
+        form.date.data = latest_date.date()
+
     if form.date.data is None:
         form.date.data = latest_date.date()
 
@@ -79,8 +86,11 @@ def dashboard():
 
         if filtered_df.empty:
             flash('No data found for the selected date', 'warning')
+            df = filtered_df
         else:
             df = filtered_df
+    else:
+        print('form is invalid')
 
     df['DATE_FOSS_ANALYSIS'] = df['DATE_FOSS_ANALYSIS'].dt.strftime('%d/%m/%Y')
 
@@ -102,7 +112,7 @@ def dashboard():
     dataset = df.to_dict(orient='records')
     columns = df.columns.tolist()
 
-    return render_template('dashboard.html', form=form, pks_code=pks_code, pks_name=pks_name, norma_ap=norma_ap, losis_ap=losis_ap, 
+    return render_template('dashboard.html', just_logged_in=just_logged_in, form=form, pks_code=pks_code, pks_name=pks_name, norma_ap=norma_ap, losis_ap=losis_ap, 
                            norma_bj=norma_bj, losis_bj=losis_bj, norma_tk=norma_tk, losis_tk=losis_tk, norma_da=norma_da, losis_da=losis_da, 
                            norma_sd=norma_sd, losis_sd=losis_sd, norma_pks=norma_pks, losis_pks=losis_pks, dataset=dataset, columns=columns)
 
