@@ -120,3 +120,62 @@ void tampilkanSemuaProduk()
     printf("-------------------------------------------------------\n");
 }
 
+// ===== EDIT PRODUK =====
+void tambahProduk()
+{
+    while (1)
+    {
+        int pilih;
+        printf("\n=== MENU EDIT PRODUK ===\n");
+        printf("1. Tambah Produk Baru\n");
+        printf("2. Edit Produk\n");
+        printf("3. Kembali ke Menu Utama\n");
+        printf("Pilih: ");
+        scanf("%d", &pilih);
+
+        if (pilih == 3)
+            return;
+
+        // ===== TAMBAH PRODUK BARU =====
+        if (pilih == 1)
+        {
+            struct Product p;
+
+            if (jumlahProduk == 0)
+                p.id = 1;
+            else
+                p.id = products[jumlahProduk - 1].id + 1;
+
+            printf("\nID produk otomatis: %d\n", p.id);
+
+            printf("Nama produk (0 untuk batal): ");
+            scanf(" %[^\n]", p.nama);
+            if (strcmp(p.nama, "0") == 0)
+            {
+                printf("Tambah produk dibatalkan.\n");
+                continue;
+            }
+
+            printf("Harga produk (0 untuk batal): ");
+            scanf("%d", &p.harga);
+            if (p.harga == 0)
+            {
+                printf("Tambah produk dibatalkan.\n");
+                continue;
+            }
+
+            printf("Jumlah stok awal (0 untuk batal): ");
+            scanf("%d", &p.stok);
+            if (p.stok == 0)
+            {
+                printf("Tambah produk dibatalkan.\n");
+                continue;
+            }
+
+            products[jumlahProduk] = p;
+            jumlahProduk++;
+
+            simpanProduk();
+            printf("\nProduk baru berhasil ditambahkan!\n");
+        }
+
