@@ -35,3 +35,52 @@ struct ItemTransaksi
 struct Product products[100];
 int jumlahProduk = 0;
 
+// ====== KERANJANG GLOBAL - TIDAK HILANG WALAU KELUAR KE MENU UTAMA ======
+struct ItemTransaksi keranjang[50];
+int jumlahItem = 0;
+
+// ===== INPUT FILE PRODUK =====
+void loadProduk()
+{
+    FILE *f = fopen("produk.txt", "r");
+    if (!f)
+        return;
+
+    while (!feof(f))
+    {
+        fscanf(f, "%d|%49[^|]|%d|%d\n",
+               &products[jumlahProduk].id,
+               products[jumlahProduk].nama,
+               &products[jumlahProduk].harga,
+               &products[jumlahProduk].stok);
+        jumlahProduk++;
+    }
+    fclose(f);
+}
+
+void simpanProduk()
+{
+    FILE *f = fopen("produk.txt", "w");
+    for (int i = 0; i < jumlahProduk; i++)
+    {
+        fprintf(f, "%d|%s|%d|%d\n",
+                products[i].id,
+                products[i].nama,
+                products[i].harga,
+                products[i].stok);
+    }
+    fclose(f);
+}
+
+// ===== MENCARI PRODUK =====
+int cariProdukById(int id)
+{
+    for (int i = 0; i < jumlahProduk; i++)
+    {
+        if (products[i].id == id)
+            return i;
+    }
+    return -1;
+}
+
+// ===== MENAMPILKAN PRODUK =====
