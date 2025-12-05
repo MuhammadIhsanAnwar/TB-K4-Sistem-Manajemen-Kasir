@@ -102,3 +102,21 @@ void tampilkanProduk()
     printf("-------------------------------------------------------\n");
 }
 
+void tampilkanSemuaProduk()
+{
+    printf("\n===== DAFTAR PRODUK =====\n");
+    printf("%-5s %-20s %-10s %-10s\n", "ID", "Nama", "Harga", "Stok");
+    printf("-------------------------------------------------------\n");
+
+    for (int i = 0; i < jumlahProduk; i++)
+    {
+        printf("%-5d %-20s Rp %-10d %-10d\n",
+               products[i].id,
+               products[i].nama,
+               products[i].harga,
+               products[i].stok);
+    }
+
+    printf("-------------------------------------------------------\n");
+}
+
