@@ -202,3 +202,16 @@ void tambahProduk()
                     printf("Produk tidak ditemukan!\n");
                     continue;
                 }
+
+                while (1) // MENU EDIT DETAIL PRODUK
+                {
+                    printf("\n=== EDIT PRODUK (ID %d - %s) ===\n", products[idx].id, products[idx].nama);
+                    printf("1. Edit Nama Produk\n");
+                    printf("2. Edit Harga Produk\n");
+                    printf("3. Ubah Stok (Replace)\n");
+                    printf("4. Tambah Stok (+)\n");
+                    printf("5. Selesai Mengedit Produk Ini\n");
+                    printf("Pilih: ");
+
+                    int pl;
+                    scanf("%d", &pl);
