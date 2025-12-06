@@ -539,3 +539,32 @@ void mulaiTransaksi()
                            keranjang[i].qty,
                            keranjang[i].subtotal);
                 }
+
+                printf("Pilih item: ");
+                scanf("%d", &hapus);
+
+                if (hapus == 0)
+                    break;
+
+                if (hapus < 1 || hapus > jumlahItem)
+                {
+                    printf("Pilihan tidak valid!\n");
+                    continue;
+                }
+
+                int idxH = hapus - 1;
+
+                int idp = keranjang[idxH].idProduk;
+                int idxP = cariProdukById(idp);
+
+                products[idxP].stok += keranjang[idxH].qty;
+
+                for (int i = idxH; i < jumlahItem - 1; i++)
+                    keranjang[i] = keranjang[i + 1];
+
+                jumlahItem--;
+
+                printf("Item dihapus.\n");
+                break;
+            }
+        }
