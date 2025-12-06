@@ -412,3 +412,17 @@ void simpanKwitansiFile(struct ItemTransaksi item[], int jumlahItem, int total,
                 item[i].qty,
                 item[i].subtotal);
     }
+
+    fprintf(f, "----------------------------------\n");
+    fprintf(f, "TOTAL SEBELUM DISKON : Rp %d\n", total);
+    fprintf(f, "POTONGAN DISKON      : Rp %d\n", potongan);
+    fprintf(f, "TOTAL SETELAH DISKON : Rp %d\n", totalSetelahDiskon);
+    fprintf(f, "BAYAR                : Rp %d\n", bayar);
+    fprintf(f, "KEMBALIAN            : Rp %d\n", kembali);
+    fprintf(f, "==================================\n");
+
+    fclose(f);
+
+    printf("\nFile kwitansi berhasil dibuat: %s\n", filename);
+}
+
