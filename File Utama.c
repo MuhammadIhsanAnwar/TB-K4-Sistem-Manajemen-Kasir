@@ -426,3 +426,20 @@ void simpanKwitansiFile(struct ItemTransaksi item[], int jumlahItem, int total,
     printf("\nFile kwitansi berhasil dibuat: %s\n", filename);
 }
 
+// ===== MENU TRANSAKSI =====
+void mulaiTransaksi()
+{
+    int running = 1;
+
+    while (running)
+    {
+        int pilih;
+        printf("\n=== MENU TRANSAKSI ===\n");
+        printf("1. Tambah Produk ke Keranjang\n");
+        printf("2. Lihat Keranjang\n");
+        printf("3. Hapus Item dari Keranjang\n");
+        printf("4. Selesai & Bayar\n");
+        printf("5. Kembali ke Menu Utama\n");
+        printf("6. Lihat Produk\n");
+        printf("Pilih: ");
+        scanf("%d", &pilih);
