@@ -585,3 +585,17 @@ void mulaiTransaksi()
             printf("Pilihan tidak valid!\n");
         }
     }
+
+    int total = 0;
+    for (int i = 0; i < jumlahItem; i++)
+        total += keranjang[i].subtotal;
+
+    printf("\nTotal belanja: %d\n", total);
+
+    float diskon = 0;
+    if (total > 150000)
+        diskon = 5;
+    else if (total > 100000)
+        diskon = 3;
+    else if (total > 75000)
+        diskon = 2;
