@@ -315,3 +315,11 @@ void hapusProduk()
     simpanProduk();
     printf("Produk berhasil dihapus!\n");
 }
+
+// ===== OUTPUT KWITANSI =====
+int getNextKwitansiNumber()
+{
+    int i = 1;
+    char filename[50];
+    FILE *f;
+
