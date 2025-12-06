@@ -357,3 +357,22 @@ int getNextLaporanNumber()
     }
 }
 
+void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
+                       int potongan, int totalSetelahDiskon, int bayar, int kembali)
+{
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+
+    printf("\n======= KWITANSI PEMBELIAN =======\n");
+    printf("Tanggal: %02d-%02d-%04d  %02d:%02d:%02d\n",
+           t->tm_mday, t->tm_mon + 1, t->tm_year + 1900,
+           t->tm_hour, t->tm_min, t->tm_sec);
+
+    for (int i = 0; i < jumlahItem; i++)
+    {
+        int idx = cariProdukById(item[i].idProduk);
+        printf("%-15s x%-3d = Rp %d\n",
+               products[idx].nama,
+               item[i].qty,
+               item[i].subtotal);
+    }
