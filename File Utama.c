@@ -579,3 +579,9 @@ void mulaiTransaksi()
 
             running = 0;
         }
+
+        else
+        {
+            printf("Pilihan tidak valid!\n");
+        }
+    }
