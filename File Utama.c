@@ -476,3 +476,21 @@ void mulaiTransaksi()
 
                 printf("Masukkan jumlah: ");
                 scanf("%d", &qty);
+
+                if (qty > products[idx].stok)
+                {
+                    printf("Stok tidak cukup!\n");
+                    continue;
+                }
+
+                products[idx].stok -= qty;
+
+                keranjang[jumlahItem].idProduk = id;
+                keranjang[jumlahItem].qty = qty;
+                keranjang[jumlahItem].subtotal = products[idx].harga * qty;
+                jumlahItem++;
+
+                printf("%s sejumlah %d berhasil ditambahkan ke keranjang.\n",
+                       products[idx].nama, qty);
+            }
+        }
