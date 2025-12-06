@@ -599,3 +599,23 @@ void mulaiTransaksi()
         diskon = 3;
     else if (total > 75000)
         diskon = 2;
+
+    int potongan = (int)(total * (diskon / 100));
+    int totalDiskon = total - potongan;
+
+    printf("Diskon %.0f%% -> Potongan: %d\n", diskon, potongan);
+    printf("Total setelah diskon: %d\n", totalDiskon);
+
+    int bayar;
+    while (1)
+    {
+        printf("Uang bayar: ");
+        scanf("%d", &bayar);
+
+        if (bayar < totalDiskon)
+        {
+            printf("Uang kurang!\n");
+        }
+        else
+            break;
+    }
