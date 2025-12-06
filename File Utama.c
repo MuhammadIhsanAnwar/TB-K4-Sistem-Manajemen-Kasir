@@ -284,3 +284,34 @@ void tambahProduk()
                 }
             }
         }
+
+        else
+        {
+            printf("Pilihan tidak valid!\n");
+        }
+    }
+}
+
+// ===== HAPUS PRODUK =====
+void hapusProduk()
+{
+    int id;
+    printf("\nMasukkan ID produk yang ingin dihapus: ");
+    scanf("%d", &id);
+
+    int idx = cariProdukById(id);
+    if (idx == -1)
+    {
+        printf("Produk tidak ditemukan!\n");
+        return;
+    }
+
+    for (int i = idx; i < jumlahProduk - 1; i++)
+    {
+        products[i] = products[i + 1];
+    }
+
+    jumlahProduk--;
+    simpanProduk();
+    printf("Produk berhasil dihapus!\n");
+}
