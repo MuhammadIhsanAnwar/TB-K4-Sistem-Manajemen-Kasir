@@ -494,3 +494,24 @@ void mulaiTransaksi()
                        products[idx].nama, qty);
             }
         }
+
+        else if (pilih == 2)
+        {
+            if (jumlahItem == 0)
+            {
+                printf("\nKeranjang masih kosong.\n");
+            }
+            else
+            {
+                printf("\n=== ISI KERANJANG ===\n");
+                for (int i = 0; i < jumlahItem; i++)
+                {
+                    int idx = cariProdukById(keranjang[i].idProduk);
+                    printf("%d. %s x%d = Rp %d\n",
+                           i + 1,
+                           products[idx].nama,
+                           keranjang[i].qty,
+                           keranjang[i].subtotal);
+                }
+            }
+        }
