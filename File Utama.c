@@ -179,3 +179,26 @@ void tambahProduk()
             printf("\nProduk baru berhasil ditambahkan!\n");
         }
 
+        // ===== EDIT PRODUK =====
+        else if (pilih == 2)
+        {
+            while (1) // LOOP UTAMA PEMILIHAN ID PRODUK
+            {
+                tampilkanProduk();
+
+                int id;
+                printf("\nMasukkan ID produk yang ingin diedit (0 untuk batal): ");
+                scanf("%d", &id);
+
+                if (id == 0)
+                {
+                    printf("Edit produk dibatalkan. Kembali ke menu tambah/update.\n");
+                    break; // kembali ke menu tambah/update produk
+                }
+
+                int idx = cariProdukById(id);
+                if (idx == -1)
+                {
+                    printf("Produk tidak ditemukan!\n");
+                    continue;
+                }
