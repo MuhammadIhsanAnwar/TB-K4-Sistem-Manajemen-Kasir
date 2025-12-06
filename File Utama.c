@@ -524,3 +524,18 @@ void mulaiTransaksi()
                 continue;
             }
 
+            int hapus;
+            while (1)
+            {
+                printf("\n=== HAPUS ITEM ===\n");
+                printf("0. Batal\n");
+
+                for (int i = 0; i < jumlahItem; i++)
+                {
+                    int idx = cariProdukById(keranjang[i].idProduk);
+                    printf("%d. %s x%d = Rp %d\n",
+                           i + 1,
+                           products[idx].nama,
+                           keranjang[i].qty,
+                           keranjang[i].subtotal);
+                }
