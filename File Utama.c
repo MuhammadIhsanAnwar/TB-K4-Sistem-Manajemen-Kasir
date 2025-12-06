@@ -515,3 +515,12 @@ void mulaiTransaksi()
                 }
             }
         }
+
+        else if (pilih == 3)
+        {
+            if (jumlahItem == 0)
+            {
+                printf("\nKeranjang kosong.\n");
+                continue;
+            }
+
