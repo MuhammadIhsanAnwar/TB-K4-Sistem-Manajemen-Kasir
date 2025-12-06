@@ -323,3 +323,17 @@ int getNextKwitansiNumber()
     char filename[50];
     FILE *f;
 
+while (1)
+    {
+        sprintf(filename, "kwitansi_%d.txt", i);
+        f = fopen(filename, "r");
+
+        if (f == NULL)
+        {
+            return i;
+        }
+
+        fclose(f);
+        i++;
+    }
+}
