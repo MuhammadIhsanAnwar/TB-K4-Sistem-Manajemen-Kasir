@@ -619,3 +619,16 @@ void mulaiTransaksi()
         else
             break;
     }
+
+    int kembali = bayar - totalDiskon;
+    printf("Kembalian: %d\n", kembali);
+
+    simpanProduk();
+
+    tampilkanKwitansi(keranjang, jumlahItem, total, potongan,
+                      totalDiskon, bayar, kembali);
+
+    simpanKwitansiFile(keranjang, jumlahItem, total, potongan,
+                       totalDiskon, bayar, kembali);
+
+    jumlahItem = 0; // RESET KERANJANG SETELAH SELESAI TRANSAKSI
