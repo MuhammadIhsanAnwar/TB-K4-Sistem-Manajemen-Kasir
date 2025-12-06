@@ -376,3 +376,12 @@ void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
                item[i].qty,
                item[i].subtotal);
     }
+
+    printf("----------------------------------\n");
+    printf("TOTAL SEBELUM DISKON : Rp %d\n", total);
+    printf("POTONGAN DISKON      : Rp %d\n", potongan);
+    printf("TOTAL SETELAH DISKON : Rp %d\n", totalSetelahDiskon);
+    printf("BAYAR                : Rp %d\n", bayar);
+    printf("KEMBALIAN            : Rp %d\n", kembali);
+    printf("==================================\n");
+}
