@@ -443,3 +443,36 @@ void mulaiTransaksi()
         printf("6. Lihat Produk\n");
         printf("Pilih: ");
         scanf("%d", &pilih);
+
+        if (pilih == 5)
+        {
+            printf("\nKembali ke menu utama.\n");
+            return;
+        }
+
+        if (pilih == 6)
+        {
+            tampilkanSemuaProduk();
+            continue;
+        }
+
+        if (pilih == 1)
+        {
+            while (1)
+            {
+                int id, qty;
+                printf("\nMasukkan ID produk (0 untuk selesai): ");
+                scanf("%d", &id);
+
+                if (id == 0)
+                    break;
+
+                int idx = cariProdukById(id);
+                if (idx == -1)
+                {
+                    printf("Produk tidak ditemukan!\n");
+                    continue;
+                }
+
+                printf("Masukkan jumlah: ");
+                scanf("%d", &qty);
