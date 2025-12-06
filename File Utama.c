@@ -568,3 +568,14 @@ void mulaiTransaksi()
                 break;
             }
         }
+
+        else if (pilih == 4)
+        {
+            if (jumlahItem == 0)
+            {
+                printf("Keranjang kosong.\n");
+                continue;
+            }
+
+            running = 0;
+        }
