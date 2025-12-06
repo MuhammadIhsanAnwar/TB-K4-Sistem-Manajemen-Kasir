@@ -215,3 +215,72 @@ void tambahProduk()
 
                     int pl;
                     scanf("%d", &pl);
+
+                    if (pl == 1)
+                    {
+                        char namaBaru[50];
+                        printf("Nama baru (0 untuk batal): ");
+                        scanf(" %[^\n]", namaBaru);
+                        if (strcmp(namaBaru, "0") == 0)
+                        {
+                            printf("Edit nama dibatalkan.\n");
+                            continue;
+                        }
+                        strcpy(products[idx].nama, namaBaru);
+                        simpanProduk();
+                        printf("Nama berhasil diperbarui!\n");
+                    }
+                    else if (pl == 2)
+                    {
+                        int hargaBaru;
+                        printf("Harga baru (0 untuk batal): ");
+                        scanf("%d", &hargaBaru);
+                        if (hargaBaru == 0)
+                        {
+                            printf("Edit harga dibatalkan.\n");
+                            continue;
+                        }
+                        products[idx].harga = hargaBaru;
+                        simpanProduk();
+                        printf("Harga berhasil diperbarui!\n");
+                    }
+                    else if (pl == 3)
+                    {
+                        int stokBaru;
+                        printf("Stok baru (0 untuk batal): ");
+                        scanf("%d", &stokBaru);
+                        if (stokBaru == 0)
+                        {
+                            printf("Edit stok dibatalkan.\n");
+                            continue;
+                        }
+                        products[idx].stok = stokBaru;
+                        simpanProduk();
+                        printf("Stok berhasil diganti!\n");
+                    }
+                    else if (pl == 4)
+                    {
+                        int tambah;
+                        printf("Tambah stok (0 untuk batal): ");
+                        scanf("%d", &tambah);
+                        if (tambah == 0)
+                        {
+                            printf("Penambahan stok dibatalkan.\n");
+                            continue;
+                        }
+                        products[idx].stok += tambah;
+                        simpanProduk();
+                        printf("Stok berhasil ditambah!\n");
+                    }
+                    else if (pl == 5)
+                    {
+                        printf("Selesai mengedit produk. Kembali memilih produk lain.\n");
+                        break; // kembali ke pemilihan ID
+                    }
+                    else
+                    {
+                        printf("Pilihan tidak valid!\n");
+                    }
+                }
+            }
+        }
