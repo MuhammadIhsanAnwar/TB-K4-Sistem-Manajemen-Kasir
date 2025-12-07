@@ -388,7 +388,7 @@ void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
 
 void simpanKwitansiFile(struct ItemTransaksi item[], int jumlahItem, int total,
                         int potongan, int totalSetelahDiskon, int bayar, int kembali)
-{
+{ 
     int no = getNextKwitansiNumber();
 
     char filename[50];
