@@ -662,3 +662,125 @@ void mulaiTransaksi()
             printf("%sPilihan tidak valid!%s\n", RED, RESET);
         }
     }
+
+    // === Hitung total & diskon ===
+    int total = 0;
+    for (int i = 0; i < jumlahItem; i++)
+        total += keranjang[i].subtotal;
+
+    printf("\n%sTotal belanja: %d%s\n", BOLD, total, RESET);
+
+    float diskon = 0;
+    if (total > 150000)
+        diskon = 5;
+    else if (total > 100000)
+        diskon = 3;
+    else if (total > 75000)
+        diskon = 2;
+
+    int potongan = (int)(total * (diskon / 100));
+    int totalDiskon = total - potongan;
+
+    printf("Diskon %.0f%% -> Potongan: %d\n", diskon, potongan);
+    printf("%sTotal setelah diskon: %d%s\n", GREEN, totalDiskon, RESET);
+
+    // === Input pembayaran ===
+    int bayar;
+    while (1)
+    {
+        printf("Uang bayar: ");
+        scanf("%d", &bayar);
+
+        if (bayar < totalDiskon)
+        {
+            printf("%sUang kurang!%s\n", RED, RESET);
+        }
+        else
+            break;
+    }
+
+    int kembali = bayar - totalDiskon;
+    if (kembali >= 0) {
+        printf("%sKembalian: %d%s\n", GREEN, kembali, RESET);
+    } else {
+        printf("%sKembalian: %d (kelebihan bayar)%s\n", YELLOW, kembali, RESET);
+    }
+
+    simpanProduk();
+
+    tampilkanKwitansi(keranjang, jumlahItem, total, potongan,
+                      totalDiskon, bayar, kembali);
+
+    simpanKwitansiFile(keranjang, jumlahItem, total, potongan,
+                       totalDiskon, bayar, kembali);
+
+    jumlahItem = 0; // RESET KERANJANG
+}
+// ===== OUTPUT LAPORAN TRANSAKSI =====
+void laporanTransaksi()
+{
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(".");
+
+    if (!d)
+    {
+        printf("%s❌ Gagal membuka folder.%s\n", RED, RESET);
+        return;
+    }
+
+    int jumlahTransaksi = 0;
+    long totalPendapatan = 0;
+
+    // Untuk menyimpan laporan sementara
+    struct
+    {
+        char tanggal[100];
+        int totalAkhir;
+        char namaFile[50];
+    } data[500];
+
+    // Judul: tebal + underline + magenta
+    printf("\n%s%s%s====== LAPORAN TRANSAKSI ======%s\n",
+           BOLD, UNDERLINE, MAGENTA, RESET);
+
+    while ((dir = readdir(d)) != NULL)
+    {
+        if (strncmp(dir->d_name, "kwitansi_", 9) == 0)
+        {
+            FILE *f = fopen(dir->d_name, "r");
+            if (!f)
+                continue;
+
+            char line[200];
+            char tanggal[100] = "-";
+            int totalAkhir = 0;
+
+            while (fgets(line, sizeof(line), f))
+            {
+                if (strncmp(line, "Tanggal:", 8) == 0)
+                {
+                    // Potong newline jika ada
+                    char *newline = strchr(line + 9, '\n');
+                    if (newline) *newline = '\0';
+                    strcpy(tanggal, line + 9);
+                }
+                if (strstr(line, "TOTAL SETELAH DISKON") != NULL)
+                {
+                    char *ptr = strstr(line, "Rp");
+                    if (ptr)
+                        sscanf(ptr + 2, "%d", &totalAkhir);
+                }
+            }
+
+            fclose(f);
+
+            strcpy(data[jumlahTransaksi].tanggal, tanggal);
+            data[jumlahTransaksi].totalAkhir = totalAkhir;
+            strcpy(data[jumlahTransaksi].namaFile, dir->d_name);
+
+            totalPendapatan += totalAkhir;
+            jumlahTransaksi++;
+        }
+    }
+    closedir(d);
