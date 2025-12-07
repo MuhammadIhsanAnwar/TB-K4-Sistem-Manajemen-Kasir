@@ -148,3 +148,53 @@ void tampilkanSemuaProduk()
            BLUE, RESET);
            
     for (int i = 0; i < jumlahProduk; i++)
+    {
+        printf("%-5d %-20s Rp %-10d %-10d\n",
+               products[i].id,
+               products[i].nama,
+               products[i].harga,
+               products[i].stok);
+    }
+
+    printf("%s-------------------------------------------------------%s\n",
+           BLUE, RESET);
+}
+
+// ===== EDIT PRODUK =====
+void tambahProduk()
+{
+    while (1)
+    {
+        int pilih;
+        
+        // Judul utama: tebal + underline + magenta
+        printf("\n%s%s%s=== MENU EDIT PRODUK ===%s\n",
+               BOLD, UNDERLINE, MAGENTA, RESET);
+        printf("1. Tambah Produk Baru\n");
+        printf("2. Edit Produk\n");
+        printf("3. Kembali ke Menu Utama\n");
+        printf("Pilih: ");
+        scanf("%d", &pilih);
+
+        if (pilih == 3)
+            return;
+
+        // ===== TAMBAH PRODUK BARU =====
+        if (pilih == 1)
+        {
+            struct Product p;
+
+            if (jumlahProduk == 0)
+                p.id = 1;
+            else
+                p.id = products[jumlahProduk - 1].id + 1;
+
+            printf("\nID produk otomatis: %d\n", p.id);
+
+            printf("Nama produk (0 untuk batal): ");
+            scanf(" %[^\n]", p.nama);
+            if (strcmp(p.nama, "0") == 0)
+            {
+                printf("%sTambah produk dibatalkan.%s\n", RED, RESET);
+                continue;
+            }
