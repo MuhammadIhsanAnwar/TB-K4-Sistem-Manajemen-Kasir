@@ -111,11 +111,9 @@ void tampilkanProduk()
     printf("%s%-5s %-20s %-10s %-10s%s\n",
            BOLD, "ID", "Nama", "Harga", "Stok", RESET);
 
-    // Garis pemisah: biru lembut
     printf("%s-------------------------------------------------------%s\n",
            BLUE, RESET);
 
-    // Isi tabel: default (atau putih/cyan — di sini pakai WHITE biar konsisten & jelas)
     for (int i = 0; i < jumlahProduk; i++)
     {
         printf("%s%-5d %-20s Rp %-10d %-10d%s\n",
@@ -127,7 +125,6 @@ void tampilkanProduk()
                RESET);
     }
 
-    // Garis akhir
     printf("%s-------------------------------------------------------%s\n",
            BLUE, RESET);
 }
@@ -137,13 +134,11 @@ void tampilkanSemuaProduk()
     printf("\n%s%s%s===================== DAFTAR PRODUK =====================%s\n",
            BOLD, UNDERLINE, MAGENTA, RESET);
     
-    printf("\n");  // baris kosong setelah judul
+    printf("\n"); 
 
-    // Header kolom: tebal putih
     printf("%s%-5s %-20s %-10s %-10s%s\n",
            BOLD, "ID", "Nama", "Harga", "Stok", RESET);
 
-    // Garis pemisah: biru lembut
     printf("%s-------------------------------------------------------%s\n",
            BLUE, RESET);
            
@@ -166,8 +161,7 @@ void tambahProduk()
     while (1)
     {
         int pilih;
-        
-        // Judul utama: tebal + underline + magenta
+
         printf("\n%s%s%s=== MENU EDIT PRODUK ===%s\n",
                BOLD, UNDERLINE, MAGENTA, RESET);
         printf("1. Tambah Produk Baru\n");
@@ -249,7 +243,7 @@ void tambahProduk()
 
                 while (1)
                 {
-                    // Judul edit: tebal + underline + magenta
+  
                     printf("\n%s%s%s=== EDIT PRODUK (ID %d - %s) ===%s\n",
                            BOLD, UNDERLINE, MAGENTA, products[idx].id, products[idx].nama, RESET);
                     printf("1. Edit Nama Produk\n");
@@ -408,18 +402,15 @@ void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
     time_t now = time(NULL);
     struct tm *t = localtime(&now);
 
-    // Judul: tebal + underline + magenta
     printf("\n%s%s%s======= KWITANSI PEMBELIAN =======%s\n",
            BOLD, UNDERLINE, MAGENTA, RESET);
 
-    // Tanggal: cyan
     printf("%sTanggal: %02d-%02d-%04d  %02d:%02d:%02d%s\n",
            CYAN,
            t->tm_mday, t->tm_mon + 1, t->tm_year + 1900,
            t->tm_hour, t->tm_min, t->tm_sec,
            RESET);
 
-    // Daftar item: default (atau WHITE jika diinginkan — di sini biar seperti asli)
     for (int i = 0; i < jumlahItem; i++)
     {
         int idx = cariProdukById(item[i].idProduk);
@@ -429,17 +420,14 @@ void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
                item[i].subtotal);
     }
 
-    // Garis pemisah: biru
     printf("%s----------------------------------%s\n", BLUE, RESET);
 
-    // Rincian: label tebal, nilai berwarna
     printf("%sTOTAL SEBELUM DISKON : %sRp %d%s\n", BOLD, YELLOW, total, RESET);
     printf("%sPOTONGAN DISKON      : %sRp %d%s\n", BOLD, GREEN, potongan, RESET);
     printf("%sTOTAL SETELAH DISKON : %s%sRp %d%s%s\n",
-           BOLD, BG_GREEN, WHITE, totalSetelahDiskon, RESET, RESET); // latar hijau + teks putih
+           BOLD, BG_GREEN, WHITE, totalSetelahDiskon, RESET, RESET); 
     printf("%sBAYAR                : %sRp %d%s\n", BOLD, WHITE, bayar, RESET);
 
-    // Kembalian: hijau jika ≥0, merah jika negatif
     if (kembali >= 0) {
         printf("%sKEMBALIAN            : %sRp %d%s\n", BOLD, GREEN, kembali, RESET);
     } else {
@@ -447,7 +435,6 @@ void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
                BOLD, RED, kembali, RESET, YELLOW, RESET);
     }
 
-    // Garis akhir: biru
     printf("%s==================================%s\n", BLUE, RESET);
 }
 
@@ -493,7 +480,6 @@ void simpanKwitansiFile(struct ItemTransaksi item[], int jumlahItem, int total,
 
     fclose(f);
 
-    // --- PESAN KE LAYAR: BERWARNA HIJAU ---
     printf("\n%s File kwitansi berhasil dibuat: %s%s\n", GREEN, filename, RESET);
 }
 
@@ -506,7 +492,6 @@ void mulaiTransaksi()
     {
         int pilih;
 
-        // Judul menu: tebal + underline + magenta
         printf("\n%s%s%s=== MENU TRANSAKSI ===%s\n",
                BOLD, UNDERLINE, MAGENTA, RESET);
         printf("1. Tambah Produk ke Keranjang\n");
@@ -577,7 +562,7 @@ void mulaiTransaksi()
             }
             else
             {
-                // Judul keranjang: tebal + underline + magenta
+
                 printf("\n%s%s%s=== ISI KERANJANG ===%s\n",
                        BOLD, UNDERLINE, MAGENTA, RESET);
                 for (int i = 0; i < jumlahItem; i++)
@@ -603,7 +588,7 @@ void mulaiTransaksi()
             int hapus;
             while (1)
             {
-                // Judul hapus: tebal + underline + magenta
+
                 printf("\n%s%s%s=== HAPUS ITEM ===%s\n",
                        BOLD, UNDERLINE, MAGENTA, RESET);
                 printf("0. Batal\n");
@@ -740,7 +725,6 @@ void laporanTransaksi()
         char namaFile[50];
     } data[500];
 
-    // Judul: tebal + underline + magenta
     printf("\n%s%s%s====== LAPORAN TRANSAKSI ======%s\n",
            BOLD, UNDERLINE, MAGENTA, RESET);
 
@@ -785,7 +769,6 @@ void laporanTransaksi()
     }
     closedir(d);
 
-    // Tampilkan ke layar
     for (int i = 0; i < jumlahTransaksi; i++)
     {
         printf("%d. File: %s\n", i + 1, data[i].namaFile);
@@ -793,7 +776,6 @@ void laporanTransaksi()
         printf("   Total   : Rp %d\n\n", data[i].totalAkhir);
     }
 
-    // Ringkasan akhir: label tebal, nilai angka berwarna
     printf("%sJUMLAH TRANSAKSI : %s%d%s\n", BOLD, YELLOW, jumlahTransaksi, RESET);
     printf("%sTOTAL PENDAPATAN : %sRp %ld%s\n", BOLD, GREEN, totalPendapatan, RESET);
     printf("%s================================%s\n", BLUE, RESET);
@@ -837,14 +819,12 @@ void menuUtama()
     {
         int pilih;
 
-        // === Header sambutan (tetap seperti asli) ===
         printf("\n\n");
         printf("%s%s        Selamat Datang di Kasir SnacknSip%s\n",
                BOLD, YELLOW, RESET);
         printf("%s%s  Sistem Manajemen Kasir - Cepat, Mudah, Profesional%s\n",
                BOLD, YELLOW, RESET);
 
-        // === Judul menu: tebal + underline + magenta ===
         printf("\n%s%s%s=== SISTEM KASIR ===%s\n",
                BOLD, UNDERLINE, MAGENTA, RESET);
 
