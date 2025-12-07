@@ -778,4 +778,10 @@ void menuUtama()
     }
 }
 
+int main()
+{
+    loadProduk();
+    menuUtama();
+    return 0;
+}
 
