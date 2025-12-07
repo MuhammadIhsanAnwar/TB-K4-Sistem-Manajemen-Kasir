@@ -298,3 +298,103 @@ void tambahProduk()
                         if (stokBaru == 0)
                         {
                             printf("%sEdit stok dibatalkan.%s\n", RED, RESET);
+                            continue;
+                        }
+                        products[idx].stok = stokBaru;
+                        simpanProduk();
+                        printf("%sStok berhasil diganti!%s\n", GREEN, RESET);
+                    }
+                    else if (pl == 4)
+                    {
+                        int tambah;
+                        printf("Tambah stok (0 untuk batal): ");
+                        scanf("%d", &tambah);
+                        if (tambah == 0)
+                        {
+                            printf("%sPenambahan stok dibatalkan.%s\n", RED, RESET);
+                            continue;
+                        }
+                        products[idx].stok += tambah;
+                        simpanProduk();
+                        printf("%sStok berhasil ditambah!%s\n", GREEN, RESET);
+                    }
+                    else if (pl == 5)
+                    {
+                        printf("Selesai mengedit produk. Kembali memilih produk lain.\n");
+                        break;
+                    }
+                    else
+                    {
+                        printf("%sPilihan tidak valid!%s\n", RED, RESET);
+                    }
+                }
+            }
+        }
+
+        else
+        {
+            printf("%sPilihan tidak valid!%s\n", RED, RESET);
+        }
+    }
+}
+// ===== HAPUS PRODUK =====
+void hapusProduk()
+{
+    int id;
+    printf("\nMasukkan ID produk yang ingin dihapus: ");
+    scanf("%d", &id);
+
+    int idx = cariProdukById(id);
+    if (idx == -1)
+    {
+        printf("%sProduk tidak ditemukan!%s\n", RED, RESET);
+        return;
+    }
+
+    for (int i = idx; i < jumlahProduk - 1; i++)
+    {
+        products[i] = products[i + 1];
+    }
+
+    jumlahProduk--;
+    simpanProduk();
+    printf("%sProduk berhasil dihapus!%s\n", GREEN, RESET);
+}
+
+// ===== OUTPUT KWITANSI =====
+int getNextKwitansiNumber()
+{
+    int i = 1;
+    char filename[50];
+    FILE *f;
+
+    while (1)
+    {
+        sprintf(filename, "kwitansi_%d.txt", i);
+        f = fopen(filename, "r");
+
+        if (f == NULL)
+        {
+            return i;
+        }
+
+        fclose(f);
+        i++;
+    }
+}
+
+int getNextLaporanNumber()
+{
+    int i = 1;
+    char filename[50];
+    FILE *f;
+
+    while (1)
+    {
+        sprintf(filename, "laporan_transaksi_%d.txt", i);
+        f = fopen(filename, "r");
+        if (f == NULL)
+        {
+            return i;
+        }
+        fclose(f);
