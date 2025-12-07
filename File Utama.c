@@ -198,3 +198,103 @@ void tambahProduk()
                 printf("%sTambah produk dibatalkan.%s\n", RED, RESET);
                 continue;
             }
+
+            printf("Harga produk (0 untuk batal): ");
+            scanf("%d", &p.harga);
+            if (p.harga == 0)
+            {
+                printf("%sTambah produk dibatalkan.%s\n", RED, RESET);
+                continue;
+            }
+
+            printf("Jumlah stok awal (0 untuk batal): ");
+            scanf("%d", &p.stok);
+            if (p.stok == 0)
+            {
+                printf("%sTambah produk dibatalkan.%s\n", RED, RESET);
+                continue;
+            }
+
+            products[jumlahProduk] = p;
+            jumlahProduk++;
+
+            simpanProduk();
+            printf("\n%sProduk baru berhasil ditambahkan!%s\n", GREEN, RESET);
+        }
+
+        // ===== EDIT PRODUK =====
+        else if (pilih == 2)
+        {
+            while (1)
+            {
+                tampilkanProduk();
+
+                int id;
+                printf("\nMasukkan ID produk yang ingin diedit (0 untuk batal): ");
+                scanf("%d", &id);
+
+                if (id == 0)
+                {
+                    printf("%sEdit produk dibatalkan. Kembali ke menu tambah/update.%s\n",
+                           RED, RESET);
+                    break;
+                }
+
+                int idx = cariProdukById(id);
+                if (idx == -1)
+                {
+                    printf("%sProduk tidak ditemukan!%s\n", RED, RESET);
+                    continue;
+                }
+
+                while (1)
+                {
+                    // Judul edit: tebal + underline + magenta
+                    printf("\n%s%s%s=== EDIT PRODUK (ID %d - %s) ===%s\n",
+                           BOLD, UNDERLINE, MAGENTA, products[idx].id, products[idx].nama, RESET);
+                    printf("1. Edit Nama Produk\n");
+                    printf("2. Edit Harga Produk\n");
+                    printf("3. Ubah Stok (Replace)\n");
+                    printf("4. Tambah Stok (+)\n");
+                    printf("5. Selesai Mengedit Produk Ini\n");
+                    printf("Pilih: ");
+
+                    int pl;
+                    scanf("%d", &pl);
+
+                    if (pl == 1)
+                    {
+                        char namaBaru[50];
+                        printf("Nama baru (0 untuk batal): ");
+                        scanf(" %[^\n]", namaBaru);
+                        if (strcmp(namaBaru, "0") == 0)
+                        {
+                            printf("%sEdit nama dibatalkan.%s\n", RED, RESET);
+                            continue;
+                        }
+                        strcpy(products[idx].nama, namaBaru);
+                        simpanProduk();
+                        printf("%sNama berhasil diperbarui!%s\n", GREEN, RESET);
+                    }
+                    else if (pl == 2)
+                    {
+                        int hargaBaru;
+                        printf("Harga baru (0 untuk batal): ");
+                        scanf("%d", &hargaBaru);
+                        if (hargaBaru == 0)
+                        {
+                            printf("%sEdit harga dibatalkan.%s\n", RED, RESET);
+                            continue;
+                        }
+                        products[idx].harga = hargaBaru;
+                        simpanProduk();
+                        printf("%sHarga berhasil diperbarui!%s\n", GREEN, RESET);
+                    }
+                    else if (pl == 3)
+                    {
+                        int stokBaru;
+                        printf("Stok baru (0 untuk batal): ");
+                        scanf("%d", &stokBaru);
+                        if (stokBaru == 0)
+                        {
+                            printf("%sEdit stok dibatalkan.%s\n", RED, RESET);
