@@ -98,3 +98,53 @@ int cariProdukById(int id)
     {
         if (products[i].id == id)
             return i;
+    }
+    return -1;
+}
+
+// ===== MENAMPILKAN PRODUK =====
+void tampilkanProduk()
+{
+    printf("\n%s%s%s===================== DAFTAR PRODUK =====================%s\n",
+           BOLD, UNDERLINE, MAGENTA, RESET);
+    printf("\n");
+    printf("%s%-5s %-20s %-10s %-10s%s\n",
+           BOLD, "ID", "Nama", "Harga", "Stok", RESET);
+
+    // Garis pemisah: biru lembut
+    printf("%s-------------------------------------------------------%s\n",
+           BLUE, RESET);
+
+    // Isi tabel: default (atau putih/cyan — di sini pakai WHITE biar konsisten & jelas)
+    for (int i = 0; i < jumlahProduk; i++)
+    {
+        printf("%s%-5d %-20s Rp %-10d %-10d%s\n",
+               WHITE,
+               products[i].id,
+               products[i].nama,
+               products[i].harga,
+               products[i].stok,
+               RESET);
+    }
+
+    // Garis akhir
+    printf("%s-------------------------------------------------------%s\n",
+           BLUE, RESET);
+}
+
+void tampilkanSemuaProduk()
+{
+    printf("\n%s%s%s===================== DAFTAR PRODUK =====================%s\n",
+           BOLD, UNDERLINE, MAGENTA, RESET);
+    
+    printf("\n");  // baris kosong setelah judul
+
+    // Header kolom: tebal putih
+    printf("%s%-5s %-20s %-10s %-10s%s\n",
+           BOLD, "ID", "Nama", "Harga", "Stok", RESET);
+
+    // Garis pemisah: biru lembut
+    printf("%s-------------------------------------------------------%s\n",
+           BLUE, RESET);
+           
+    for (int i = 0; i < jumlahProduk; i++)
