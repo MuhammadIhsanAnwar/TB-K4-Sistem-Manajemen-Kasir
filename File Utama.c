@@ -496,3 +496,169 @@ void simpanKwitansiFile(struct ItemTransaksi item[], int jumlahItem, int total,
     // --- PESAN KE LAYAR: BERWARNA HIJAU ---
     printf("\n%s File kwitansi berhasil dibuat: %s%s\n", GREEN, filename, RESET);
 }
+
+// ===== MENU TRANSAKSI =====
+void mulaiTransaksi()
+{
+    int running = 1;
+
+    while (running)
+    {
+        int pilih;
+
+        // Judul menu: tebal + underline + magenta
+        printf("\n%s%s%s=== MENU TRANSAKSI ===%s\n",
+               BOLD, UNDERLINE, MAGENTA, RESET);
+        printf("1. Tambah Produk ke Keranjang\n");
+        printf("2. Lihat Keranjang\n");
+        printf("3. Hapus Item dari Keranjang\n");
+        printf("4. Selesai & Bayar\n");
+        printf("5. Kembali ke Menu Utama\n");
+        printf("6. Lihat Produk\n");
+        printf("Pilih: ");
+        scanf("%d", &pilih);
+
+        if (pilih == 5)
+        {
+            printf("\n%sKembali ke menu utama.%s\n", YELLOW, RESET);
+            return;
+        }
+
+        if (pilih == 6)
+        {
+            tampilkanSemuaProduk();
+            continue;
+        }
+
+        if (pilih == 1)
+        {
+            while (1)
+            {
+                int id, qty;
+                printf("\nMasukkan ID produk (0 untuk selesai): ");
+                scanf("%d", &id);
+
+                if (id == 0)
+                    break;
+
+                int idx = cariProdukById(id);
+                if (idx == -1)
+                {
+                    printf("%sProduk tidak ditemukan!%s\n", RED, RESET);
+                    continue;
+                }
+
+                printf("Masukkan jumlah: ");
+                scanf("%d", &qty);
+
+                if (qty > products[idx].stok)
+                {
+                    printf("%sStok tidak cukup!%s\n", RED, RESET);
+                    continue;
+                }
+
+                products[idx].stok -= qty;
+
+                keranjang[jumlahItem].idProduk = id;
+                keranjang[jumlahItem].qty = qty;
+                keranjang[jumlahItem].subtotal = products[idx].harga * qty;
+                jumlahItem++;
+
+                printf("%s%s sejumlah %d berhasil ditambahkan ke keranjang.%s\n",
+                       GREEN, products[idx].nama, qty, RESET);
+            }
+        }
+
+        else if (pilih == 2)
+        {
+            if (jumlahItem == 0)
+            {
+                printf("\n%sKeranjang masih kosong.%s\n", YELLOW, RESET);
+            }
+            else
+            {
+                // Judul keranjang: tebal + underline + magenta
+                printf("\n%s%s%s=== ISI KERANJANG ===%s\n",
+                       BOLD, UNDERLINE, MAGENTA, RESET);
+                for (int i = 0; i < jumlahItem; i++)
+                {
+                    int idx = cariProdukById(keranjang[i].idProduk);
+                    printf("%d. %s x%d = Rp %d\n",
+                           i + 1,
+                           products[idx].nama,
+                           keranjang[i].qty,
+                           keranjang[i].subtotal);
+                }
+            }
+        }
+
+        else if (pilih == 3)
+        {
+            if (jumlahItem == 0)
+            {
+                printf("\n%sKeranjang kosong.%s\n", YELLOW, RESET);
+                continue;
+            }
+
+            int hapus;
+            while (1)
+            {
+                // Judul hapus: tebal + underline + magenta
+                printf("\n%s%s%s=== HAPUS ITEM ===%s\n",
+                       BOLD, UNDERLINE, MAGENTA, RESET);
+                printf("0. Batal\n");
+
+                for (int i = 0; i < jumlahItem; i++)
+                {
+                    int idx = cariProdukById(keranjang[i].idProduk);
+                    printf("%d. %s x%d = Rp %d\n",
+                           i + 1,
+                           products[idx].nama,
+                           keranjang[i].qty,
+                           keranjang[i].subtotal);
+                }
+
+                printf("Pilih item: ");
+                scanf("%d", &hapus);
+
+                if (hapus == 0)
+                    break;
+
+                if (hapus < 1 || hapus > jumlahItem)
+                {
+                    printf("%sPilihan tidak valid!%s\n", RED, RESET);
+                    continue;
+                }
+
+                int idxH = hapus - 1;
+                int idp = keranjang[idxH].idProduk;
+                int idxP = cariProdukById(idp);
+
+                products[idxP].stok += keranjang[idxH].qty;
+
+                for (int i = idxH; i < jumlahItem - 1; i++)
+                    keranjang[i] = keranjang[i + 1];
+
+                jumlahItem--;
+
+                printf("%sItem dihapus.%s\n", GREEN, RESET);
+                break;
+            }
+        }
+
+        else if (pilih == 4)
+        {
+            if (jumlahItem == 0)
+            {
+                printf("%sKeranjang kosong.%s\n", YELLOW, RESET);
+                continue;
+            }
+
+            running = 0;
+        }
+
+        else
+        {
+            printf("%sPilihan tidak valid!%s\n", RED, RESET);
+        }
+    }
