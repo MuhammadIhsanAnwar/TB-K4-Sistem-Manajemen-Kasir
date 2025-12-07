@@ -698,3 +698,194 @@ void mulaiTransaksi()
         else
             break;
     }
+
+    int kembali = bayar - totalDiskon;
+    if (kembali >= 0) {
+        printf("%sKembalian: %d%s\n", GREEN, kembali, RESET);
+    } else {
+        printf("%sKembalian: %d (kelebihan bayar)%s\n", YELLOW, kembali, RESET);
+    }
+
+    simpanProduk();
+
+    tampilkanKwitansi(keranjang, jumlahItem, total, potongan,
+                      totalDiskon, bayar, kembali);
+
+    simpanKwitansiFile(keranjang, jumlahItem, total, potongan,
+                       totalDiskon, bayar, kembali);
+
+    jumlahItem = 0; // RESET KERANJANG
+}
+// ===== OUTPUT LAPORAN TRANSAKSI =====
+void laporanTransaksi()
+{
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(".");
+
+    if (!d)
+    {
+        printf("%s❌ Gagal membuka folder.%s\n", RED, RESET);
+        return;
+    }
+
+    int jumlahTransaksi = 0;
+    long totalPendapatan = 0;
+
+    // Untuk menyimpan laporan sementara
+    struct
+    {
+        char tanggal[100];
+        int totalAkhir;
+        char namaFile[50];
+    } data[500];
+
+    // Judul: tebal + underline + magenta
+    printf("\n%s%s%s====== LAPORAN TRANSAKSI ======%s\n",
+           BOLD, UNDERLINE, MAGENTA, RESET);
+
+    while ((dir = readdir(d)) != NULL)
+    {
+        if (strncmp(dir->d_name, "kwitansi_", 9) == 0)
+        {
+            FILE *f = fopen(dir->d_name, "r");
+            if (!f)
+                continue;
+
+            char line[200];
+            char tanggal[100] = "-";
+            int totalAkhir = 0;
+
+            while (fgets(line, sizeof(line), f))
+            {
+                if (strncmp(line, "Tanggal:", 8) == 0)
+                {
+                    // Potong newline jika ada
+                    char *newline = strchr(line + 9, '\n');
+                    if (newline) *newline = '\0';
+                    strcpy(tanggal, line + 9);
+                }
+                if (strstr(line, "TOTAL SETELAH DISKON") != NULL)
+                {
+                    char *ptr = strstr(line, "Rp");
+                    if (ptr)
+                        sscanf(ptr + 2, "%d", &totalAkhir);
+                }
+            }
+
+            fclose(f);
+
+            strcpy(data[jumlahTransaksi].tanggal, tanggal);
+            data[jumlahTransaksi].totalAkhir = totalAkhir;
+            strcpy(data[jumlahTransaksi].namaFile, dir->d_name);
+
+            totalPendapatan += totalAkhir;
+            jumlahTransaksi++;
+        }
+    }
+    closedir(d);
+
+    // Tampilkan ke layar
+    for (int i = 0; i < jumlahTransaksi; i++)
+    {
+        printf("%d. File: %s\n", i + 1, data[i].namaFile);
+        printf("   Tanggal : %s\n", data[i].tanggal);
+        printf("   Total   : Rp %d\n\n", data[i].totalAkhir);
+    }
+
+    // Ringkasan akhir: label tebal, nilai angka berwarna
+    printf("%sJUMLAH TRANSAKSI : %s%d%s\n", BOLD, YELLOW, jumlahTransaksi, RESET);
+    printf("%sTOTAL PENDAPATAN : %sRp %ld%s\n", BOLD, GREEN, totalPendapatan, RESET);
+    printf("%s================================%s\n", BLUE, RESET);
+
+    // ====== SIMPAN KE FILE LAPORAN OTOMATIS ======
+    int no = getNextLaporanNumber();
+
+    char filename[50];
+    sprintf(filename, "laporan_transaksi_%d.txt", no);
+
+    FILE *out = fopen(filename, "w");
+    if (!out) {
+        printf("%s Gagal membuat file laporan.%s\n", RED, RESET);
+        return;
+    }
+
+    // Isi file: TANPA WARNA (polos & print-friendly)
+    fprintf(out, "========== LAPORAN TRANSAKSI ==========\n\n");
+
+    for (int i = 0; i < jumlahTransaksi; i++)
+    {
+        fprintf(out, "%d. File: %s\n", i + 1, data[i].namaFile);
+        fprintf(out, "   Tanggal : %s\n", data[i].tanggal);
+        fprintf(out, "   Total   : Rp %d\n\n", data[i].totalAkhir);
+    }
+
+    fprintf(out, "JUMLAH TRANSAKSI : %d\n", jumlahTransaksi);
+    fprintf(out, "TOTAL PENDAPATAN : Rp %ld\n", totalPendapatan);
+    fprintf(out, "=========================================\n");
+
+    fclose(out);
+
+    // Pesan sukses ke layar: hijau
+    printf("\n%s File laporan berhasil dibuat: %s%s\n", GREEN, filename, RESET);
+}
+
+// ===== MENU UTAMA =====
+void menuUtama()
+{
+    while (1)
+    {
+        int pilih;
+
+        // === Header sambutan (tetap seperti asli) ===
+        printf("\n\n");
+        printf("%s%s        Selamat Datang di Kasir SnacknSip%s\n",
+               BOLD, YELLOW, RESET);
+        printf("%s%s  Sistem Manajemen Kasir - Cepat, Mudah, Profesional%s\n",
+               BOLD, YELLOW, RESET);
+
+        // === Judul menu: tebal + underline + magenta ===
+        printf("\n%s%s%s=== SISTEM KASIR ===%s\n",
+               BOLD, UNDERLINE, MAGENTA, RESET);
+
+        printf("1. Edit Produk\n");
+        printf("2. Lihat Produk\n");
+        printf("3. Hapus Produk\n");
+        printf("4. Mulai Transaksi\n");
+        printf("5. Laporan Transaksi\n");
+        printf("6. Keluar\n");
+        printf("Pilih: ");
+        scanf("%d", &pilih);
+
+        switch (pilih)
+        {
+        case 1:
+            tambahProduk();
+            break;
+        case 2:
+            tampilkanProduk();
+            break;
+        case 3:
+            hapusProduk();
+            break;
+        case 4:
+            mulaiTransaksi();
+            break;
+        case 5:
+            laporanTransaksi();
+            break;
+        case 6:
+            printf("\n%sTerima kasih telah menggunakan SnacknSip!%s\n", GREEN, RESET);
+            return;
+        default:
+            printf("%sPilihan tidak valid! Harap pilih angka 1–6.%s\n", RED, RESET);
+        }
+    }
+}
+
+int main()
+{
+    loadProduk();
+    menuUtama();
+    return 0;
+}
