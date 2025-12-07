@@ -632,3 +632,155 @@ void mulaiTransaksi()
                        totalDiskon, bayar, kembali);
 
     jumlahItem = 0; // RESET KERANJANG SETELAH SELESAI TRANSAKSI
+}
+
+// ===== OUTPUT LAPORAN TRANSAKSI =====
+void laporanTransaksi()
+{
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(".");
+
+    if (!d)
+    {
+        printf("Gagal membuka folder.\n");
+        return;
+    }
+
+    int jumlahTransaksi = 0;
+    long totalPendapatan = 0;
+
+    // Untuk menyimpan laporan sementara
+    struct
+    {
+        char tanggal[100];
+        int totalAkhir;
+        char namaFile[50];
+    } data[500];
+
+    printf("\n====== LAPORAN TRANSAKSI ======\n");
+
+    while ((dir = readdir(d)) != NULL)
+    {
+        if (strncmp(dir->d_name, "kwitansi_", 9) == 0)
+        {
+            FILE *f = fopen(dir->d_name, "r");
+            if (!f)
+                continue;
+
+            char line[200];
+            char tanggal[100] = "-";
+            int totalAkhir = 0;
+
+            while (fgets(line, sizeof(line), f))
+            {
+                if (strncmp(line, "Tanggal:", 8) == 0)
+                {
+                    strcpy(tanggal, line + 9);
+                }
+                if (strstr(line, "TOTAL SETELAH DISKON") != NULL)
+                {
+                    char *ptr = strstr(line, "Rp");
+                    if (ptr)
+                        sscanf(ptr + 2, "%d", &totalAkhir);
+                }
+            }
+
+            fclose(f);
+
+            strcpy(data[jumlahTransaksi].tanggal, tanggal);
+            data[jumlahTransaksi].totalAkhir = totalAkhir;
+            strcpy(data[jumlahTransaksi].namaFile, dir->d_name);
+
+            totalPendapatan += totalAkhir;
+            jumlahTransaksi++;
+        }
+    }
+    closedir(d);
+
+    // Tampilkan ke layar
+    for (int i = 0; i < jumlahTransaksi; i++)
+    {
+        printf("%d. File: %s\n", i + 1, data[i].namaFile);
+        printf("   Tanggal : %s", data[i].tanggal);
+        printf("   Total   : Rp %d\n\n", data[i].totalAkhir);
+    }
+
+    printf("JUMLAH TRANSAKSI : %d\n", jumlahTransaksi);
+    printf("TOTAL PENDAPATAN : Rp %ld\n", totalPendapatan);
+    printf("================================\n");
+
+    // ====== SIMPAN KE FILE LAPORAN OTOMATIS ======
+    int no = getNextLaporanNumber();
+
+    char filename[50];
+    sprintf(filename, "laporan_transaksi_%d.txt", no);
+
+    FILE *out = fopen(filename, "w");
+
+    fprintf(out, "========== LAPORAN TRANSAKSI ==========\n\n");
+
+    for (int i = 0; i < jumlahTransaksi; i++)
+    {
+        fprintf(out, "%d. File: %s\n", i + 1, data[i].namaFile);
+        fprintf(out, "   Tanggal : %s", data[i].tanggal);
+        fprintf(out, "   Total   : Rp %d\n\n", data[i].totalAkhir);
+    }
+
+    fprintf(out, "JUMLAH TRANSAKSI : %d\n", jumlahTransaksi);
+    fprintf(out, "TOTAL PENDAPATAN : Rp %ld\n", totalPendapatan);
+    fprintf(out, "=========================================\n");
+
+    fclose(out);
+
+    printf("\nFile laporan berhasil dibuat: %s\n", filename);
+}
+
+// ===== MENU UTAMA =====
+void menuUtama()
+{
+    while (1)
+    {
+        int pilih;
+
+        printf("\n=== SISTEM KASIR ===\n");
+        printf("1. Edit Produk\n");
+        printf("2. Lihat Produk\n");
+        printf("3. Hapus Produk\n");
+        printf("4. Mulai Transaksi\n");
+        printf("5. Laporan Transaksi\n");
+        printf("6. Keluar\n");
+        printf("Pilih: ");
+        scanf("%d", &pilih);
+
+        switch (pilih)
+        {
+        case 1:
+            tambahProduk();
+            break;
+        case 2:
+            tampilkanProduk();
+            break;
+        case 3:
+            hapusProduk();
+            break;
+        case 4:
+            mulaiTransaksi();
+            break;
+        case 5:
+            laporanTransaksi();
+            break;
+        case 6:
+            return;
+        default:
+            printf("Pilihan tidak valid!\n");
+        }
+    }
+}
+
+int main()
+{
+    loadProduk();
+    menuUtama();
+    return 0;
+}
