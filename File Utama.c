@@ -598,3 +598,103 @@ void mulaiTransaksi()
             {
                 printf("\n%sKeranjang kosong.%s\n", YELLOW, RESET);
                 continue;
+            }
+
+            int hapus;
+            while (1)
+            {
+                // Judul hapus: tebal + underline + magenta
+                printf("\n%s%s%s=== HAPUS ITEM ===%s\n",
+                       BOLD, UNDERLINE, MAGENTA, RESET);
+                printf("0. Batal\n");
+
+                for (int i = 0; i < jumlahItem; i++)
+                {
+                    int idx = cariProdukById(keranjang[i].idProduk);
+                    printf("%d. %s x%d = Rp %d\n",
+                           i + 1,
+                           products[idx].nama,
+                           keranjang[i].qty,
+                           keranjang[i].subtotal);
+                }
+
+                printf("Pilih item: ");
+                scanf("%d", &hapus);
+
+                if (hapus == 0)
+                    break;
+
+                if (hapus < 1 || hapus > jumlahItem)
+                {
+                    printf("%sPilihan tidak valid!%s\n", RED, RESET);
+                    continue;
+                }
+
+                int idxH = hapus - 1;
+                int idp = keranjang[idxH].idProduk;
+                int idxP = cariProdukById(idp);
+
+                products[idxP].stok += keranjang[idxH].qty;
+
+                for (int i = idxH; i < jumlahItem - 1; i++)
+                    keranjang[i] = keranjang[i + 1];
+
+                jumlahItem--;
+
+                printf("%sItem dihapus.%s\n", GREEN, RESET);
+                break;
+            }
+        }
+
+        else if (pilih == 4)
+        {
+            if (jumlahItem == 0)
+            {
+                printf("%sKeranjang kosong.%s\n", YELLOW, RESET);
+                continue;
+            }
+
+            running = 0;
+        }
+
+        else
+        {
+            printf("%sPilihan tidak valid!%s\n", RED, RESET);
+        }
+    }
+
+    // === Hitung total & diskon ===
+    int total = 0;
+    for (int i = 0; i < jumlahItem; i++)
+        total += keranjang[i].subtotal;
+
+    printf("\n%sTotal belanja: %d%s\n", BOLD, total, RESET);
+
+    float diskon = 0;
+    if (total > 150000)
+        diskon = 5;
+    else if (total > 100000)
+        diskon = 3;
+    else if (total > 75000)
+        diskon = 2;
+
+    int potongan = (int)(total * (diskon / 100));
+    int totalDiskon = total - potongan;
+
+    printf("Diskon %.0f%% -> Potongan: %d\n", diskon, potongan);
+    printf("%sTotal setelah diskon: %d%s\n", GREEN, totalDiskon, RESET);
+
+    // === Input pembayaran ===
+    int bayar;
+    while (1)
+    {
+        printf("Uang bayar: ");
+        scanf("%d", &bayar);
+
+        if (bayar < totalDiskon)
+        {
+            printf("%sUang kurang!%s\n", RED, RESET);
+        }
+        else
+            break;
+    }
