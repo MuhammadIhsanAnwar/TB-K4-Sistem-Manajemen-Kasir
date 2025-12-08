@@ -809,3 +809,36 @@ void laporanTransaksi()
     printf("%sJUMLAH TRANSAKSI : %s%d%s\n", BOLD, YELLOW, jumlahTransaksi, RESET);
     printf("%sTOTAL PENDAPATAN : %sRp %ld%s\n", BOLD, GREEN, totalPendapatan, RESET);
     printf("%s================================%s\n", BLUE, RESET);
+
+// ====== SIMPAN KE FILE LAPORAN OTOMATIS ======
+    int no = getNextLaporanNumber();
+
+    char filename[50];
+    sprintf(filename, "laporan_transaksi_%d.txt", no);
+
+    FILE *out = fopen(filename, "w");
+    if (!out)
+    {
+        printf("%s Gagal membuat file laporan.%s\n", RED, RESET);
+        return;
+    }
+
+    // ISI FILE LAPORAN TRANSAKSI
+    fprintf(out, "========== LAPORAN TRANSAKSI ==========\n\n");
+
+    for (int i = 0; i < jumlahTransaksi; i++)
+    {
+        fprintf(out, "%d. File: %s\n", i + 1, data[i].namaFile);
+        fprintf(out, "   Tanggal : %s\n", data[i].tanggal);
+        fprintf(out, "   Total   : Rp %d\n\n", data[i].totalAkhir);
+    }
+
+    fprintf(out, "JUMLAH TRANSAKSI : %d\n", jumlahTransaksi);
+    fprintf(out, "TOTAL PENDAPATAN : Rp %ld\n", totalPendapatan);
+    fprintf(out, "=========================================\n");
+
+    fclose(out);
+
+    // PESAN SUKSES KE LAYAR
+    printf("\n%s File laporan berhasil dibuat: %s%s\n", GREEN, filename, RESET);
+}
