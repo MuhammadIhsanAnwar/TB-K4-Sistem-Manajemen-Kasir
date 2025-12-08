@@ -180,7 +180,7 @@ void tambahProduk()
         {
             struct Product p;
 
-        if (jumlahProduk == 0)
+            if (jumlahProduk == 0)
                 p.id = 1;
             else
                 p.id = products[jumlahProduk - 1].id + 1;
@@ -191,7 +191,7 @@ void tambahProduk()
             scanf(" %[^\n]", p.nama);
             if (strcmp(p.nama, "0") == 0)
             {
-            printf("%sTambah produk dibatalkan.%s\n", RED, RESET);
+                printf("%sTambah produk dibatalkan.%s\n", RED, RESET);
                 continue;
             }
 
@@ -199,10 +199,10 @@ void tambahProduk()
             int dupe = 0;
             for (int i = 0; i < jumlahProduk; i++)
             {
-                if (strcasecmp(products[i].nama, p.nama) == 0)
+            if (strcasecmp(products[i].nama, p.nama) == 0)
                 {
-                    dupe = 1;
-                    break;
+                dupe = 1;
+                break;
                 }
             }
 
