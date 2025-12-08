@@ -57,3 +57,102 @@ int jumlahProduk = 0;
 // ====== KERANJANG GLOBAL - TIDAK HILANG JIKA KELUAR KE MENU UTAMA ======
 struct ItemTransaksi keranjang[50];
 int jumlahItem = 0;
+
+// ===== MEMBUKA FILE PRODUK =====
+void loadProduk()
+{
+    FILE *f = fopen("produk.txt|", "r");
+    if (!f)
+        return;
+
+    while (!feof(f))
+    {
+        fscanf(f, "%d|%49[^|]%d|%d\n",
+               &products[jumlahProduk].id,
+               products[jumlahProduk].nama,
+               &products[jumlahProduk].harga,
+               &products[jumlahProduk].stok);
+        jumlahProduk++;
+    }
+    fclose(f);
+}
+
+// ===== INPUT FILE PRODUK =====
+
+void simpanProduk()
+{
+    FILE *f = fopen("produk.txt", "w");
+    for (int i = 0; i < jumlahProduk; i++)
+    {
+        fprintf(f, "%d|%s|%d|%d\n",
+                products[i].id,
+                products[i].nama,
+                products[i].harga,
+                products[i].stok);
+    }
+    fclose(f);
+}
+
+// ===== MENCARI PRODUK =====
+int cariProdukById(int id)
+{
+    for (int i = 0; i < jumlahProduk; i++)
+    {
+        if (products[i].id == id)
+            return i;
+    }
+    return -1;
+}
+
+// ===== MENAMPILKAN PRODUK =====
+void tampilkanProduk()
+{
+    printf("\n%s%s%s============================= DAFTAR PRODUK =============================%s\n",
+           BOLD, UNDERLINE, MAGENTA, RESET);
+    printf("\n");
+    printf("%s%-5s %-50s %-10s %-10s%s\n",
+           BOLD, "ID", "Nama", "Harga", "Stok", RESET);
+
+    printf("%s---------------------------------------------------------------------------%s\n",
+           BLUE, RESET);
+
+    for (int i = 0; i < jumlahProduk; i++)
+    {
+        printf("%s%-5d %-50s Rp %-10d %-10d%s\n",
+               WHITE,
+               products[i].id,
+               products[i].nama,
+               products[i].harga,
+               products[i].stok,
+               RESET);
+    }
+
+    printf("%s---------------------------------------------------------------------------%s\n",
+           BLUE, RESET);
+}
+
+void tampilkanSemuaProduk()
+{
+    printf("\n%s%s%s============================= DAFTAR PRODUK =============================%s\n",
+           BOLD, UNDERLINE, MAGENTA, RESET);
+
+    printf("\n");
+
+    printf("%s%-5s %-50s %-10s %-10s%s\n",
+           BOLD, "ID", "Nama", "Harga", "Stok", RESET);
+
+    printf("%s---------------------------------------------------------------------------%s\n",
+           BLUE, RESET);
+
+    for (int i = 0; i < jumlahProduk; i++)
+    {
+        printf("%-5d %-50s Rp %-10d %-10d\n",
+               products[i].id,
+               products[i].nama,
+               products[i].harga,
+               products[i].stok);
+    }
+
+    printf("%s---------------------------------------------------------------------------%s\n",
+           BLUE, RESET);
+}
