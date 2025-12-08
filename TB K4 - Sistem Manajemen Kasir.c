@@ -350,3 +350,114 @@ void tambahProduk()
         }
     }
 }
+// ===== HAPUS PRODUK =====
+void hapusProduk()
+{
+    int id;
+    printf("\nMasukkan ID produk yang ingin dihapus: ");
+    scanf("%d", &id);
+
+    int idx = cariProdukById(id);
+    if (idx == -1)
+    {
+        printf("%sProduk tidak ditemukan!%s\n", RED, RESET);
+        return;
+    }
+
+    for (int i = idx; i < jumlahProduk - 1; i++)
+    {
+        products[i] = products[i + 1];
+    }
+
+    jumlahProduk--;
+    simpanProduk();
+    printf("%sProduk berhasil dihapus!%s\n", GREEN, RESET);
+}
+
+// ===== OUTPUT FILE KWITANSI =====
+int getNextKwitansiNumber()
+{
+    int i = 1;
+    char filename[50];
+    FILE *f;
+
+    while (1)
+    {
+        sprintf(filename, "kwitansi_%d.txt", i);
+        f = fopen(filename, "r");
+
+        if (f == NULL)
+        {
+            return i;
+        }
+
+        fclose(f);
+        i++;
+    }
+}
+
+// ==== OUTPUT LAPORAN TRANSAKSI =====
+int getNextLaporanNumber()
+{
+    int i = 1;
+    char filename[50];
+    FILE *f;
+
+    while (1)
+    {
+        sprintf(filename, "laporan_transaksi_%d.txt", i);
+        f = fopen(filename, "r");
+        if (f == NULL)
+        {
+            return i;
+        }
+        fclose(f);
+        i++;
+    }
+}
+
+// ==== TAMPILKAN KWITANSI KE LAYAR =====
+void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
+                       int potongan, int totalSetelahDiskon, int bayar, int kembali)
+{
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+
+    printf("\n%s%s%s======= KWITANSI PEMBELIAN =======%s\n",
+           BOLD, UNDERLINE, MAGENTA, RESET);
+
+    printf("%sTanggal: %02d-%02d-%04d  %02d:%02d:%02d%s\n",
+           CYAN,
+           t->tm_mday, t->tm_mon + 1, t->tm_year + 1900,
+           t->tm_hour, t->tm_min, t->tm_sec,
+           RESET);
+
+    for (int i = 0; i < jumlahItem; i++)
+    {
+        int idx = cariProdukById(item[i].idProduk);
+        printf("%-15s x%-3d = Rp %d\n",
+               products[idx].nama,
+               item[i].qty,
+               item[i].subtotal);
+    }
+
+    printf("%s----------------------------------%s\n", BLUE, RESET);
+
+    printf("%sTOTAL SEBELUM DISKON : %sRp %d%s\n", BOLD, YELLOW, total, RESET);
+    printf("%sPOTONGAN DISKON      : %sRp %d%s\n", BOLD, GREEN, potongan, RESET);
+    printf("%sTOTAL SETELAH DISKON : %s%sRp %d%s%s\n",
+           BOLD, BG_GREEN, WHITE, totalSetelahDiskon, RESET, RESET);
+    printf("%sBAYAR                : %sRp %d%s\n", BOLD, WHITE, bayar, RESET);
+
+    if (kembali >= 0)
+    {
+        printf("%sKEMBALIAN            : %sRp %d%s\n", BOLD, GREEN, kembali, RESET);
+    }
+    else
+    {
+        printf("%sKEMBALIAN            : %sRp %d%s %s(kelebihan bayar)%s\n",
+               BOLD, RED, kembali, RESET, YELLOW, RESET);
+    }
+
+    printf("%s==================================%s\n", BLUE, RESET);
+}
