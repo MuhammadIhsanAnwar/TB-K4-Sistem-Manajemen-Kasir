@@ -842,3 +842,61 @@ void laporanTransaksi()
     // PESAN SUKSES KE LAYAR
     printf("\n%s File laporan berhasil dibuat: %s%s\n", GREEN, filename, RESET);
 }
+
+// ===== MENU UTAMA =====
+void menuUtama()
+{
+    while (1)
+    {
+        int pilih;
+
+        printf("\n");
+        printf("%s%s        Selamat Datang di Kasir SnacknSip%s\n",
+               BOLD, YELLOW, RESET);
+        printf("%s%s  Sistem Manajemen Kasir - Cepat, Mudah, Profesional%s\n",
+               BOLD, YELLOW, RESET);
+
+        printf("\n%s%s%s=== SISTEM KASIR ===%s\n",
+               BOLD, UNDERLINE, MAGENTA, RESET);
+
+        printf("1. Edit Produk\n");
+        printf("2. Lihat Produk\n");
+        printf("3. Hapus Produk\n");
+        printf("4. Mulai Transaksi\n");
+        printf("5. Laporan Transaksi\n");
+        printf("6. Keluar\n");
+        printf("Pilih: ");
+        scanf("%d", &pilih);
+
+        switch (pilih)
+        {
+        case 1:
+            tambahProduk();
+            break;
+        case 2:
+            tampilkanProduk();
+            break;
+        case 3:
+            hapusProduk();
+            break;
+        case 4:
+            mulaiTransaksi();
+            break;
+        case 5:
+            laporanTransaksi();
+            break;
+        case 6:
+            printf("\n%sTerima kasih telah menggunakan SnacknSip!%s\n", GREEN, RESET);
+            return;
+        default:
+            printf("%sPilihan tidak valid! Harap pilih angka 1–6.%s\n", RED, RESET);
+        }
+    }
+}
+
+int main()
+{
+    loadProduk();
+    menuUtama();
+    return 0;
+}
