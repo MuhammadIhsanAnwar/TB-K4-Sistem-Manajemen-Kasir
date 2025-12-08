@@ -403,7 +403,7 @@ int getNextLaporanNumber()
     char filename[50];
     FILE *f;
 
-while (1)
+    while (1)
     {
         sprintf(filename, "laporan_transaksi_%d.txt", i);
         f = fopen(filename, "r");
@@ -411,7 +411,7 @@ while (1)
         {
             return i;
         }
-        fclose(f)
+        fclose(f);
         i++;
     }
 }
@@ -424,7 +424,7 @@ void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
     struct tm *t = localtime(&now);
 
     printf("\n%s%s%s======= KWITANSI PEMBELIAN =======%s\n",
-           BOLD, UNDERLINE, MAGENTA, RESET);
+           BOLD, UNDERLINE, MAGENTA, RESET)
 
     printf("%sTanggal: %02d-%02d-%04d  %02d:%02d:%02d%s\n",
            CYAN,
@@ -432,7 +432,7 @@ void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
            t->tm_hour, t->tm_min, t->tm_sec,
            RESET);
 
-    for (int i = 0; i < jumlahItem; i++)
+    for (int i = 0; i < jumlahItem; i++);
     {
         int idx = cariProdukById(item[i].idProduk);
         printf("%-15s x%-3d = Rp %d\n",
@@ -459,7 +459,7 @@ void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
                BOLD, RED, kembali, RESET, YELLOW, RESET);
     }
 
-    printf("%s==================================%s\n", BLUE, RESET);
+    printf("%s==================================%s\n", BLUE, RESET)
 }
 
 // ===== SIMPAN KWITANSI KE FILE =====
