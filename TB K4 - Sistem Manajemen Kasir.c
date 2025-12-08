@@ -160,7 +160,7 @@ void tampilkanSemuaProduk()
 // ===== EDIT PRODUK =====
 void tambahProduk()
 {
-while (1)
+    while (1)
     {
         int pilih;
 
@@ -172,15 +172,15 @@ while (1)
         printf("Pilih: ");
         scanf("%d", &pilih);
 
-    if (pilih == 3)
-    return;
+        if (pilih == 3)
+            return;
 
         // ===== TAMBAH PRODUK BARU =====
         if (pilih == 1)
         {
             struct Product p;
 
-            if (jumlahProduk == 0)
+        if (jumlahProduk == 0)
                 p.id = 1;
             else
                 p.id = products[jumlahProduk - 1].id + 1;
@@ -191,7 +191,7 @@ while (1)
             scanf(" %[^\n]", p.nama);
             if (strcmp(p.nama, "0") == 0)
             {
-                printf("%sTambah produk dibatalkan.%s\n", RED, RESET);
+            printf("%sTambah produk dibatalkan.%s\n", RED, RESET);
                 continue;
             }
 
