@@ -199,10 +199,10 @@ void tambahProduk()
             int dupe = 0;
             for (int i = 0; i < jumlahProduk; i++)
             {
-            if (strcasecmp(products[i].nama, p.nama) == 0)
+                if (strcasecmp(products[i].nama, p.nama) == 0)
                 {
-                dupe = 1;
-                break;
+                    dupe = 1;
+                    break;
                 }
             }
 
@@ -238,7 +238,7 @@ void tambahProduk()
         // ===== EDIT PRODUK =====
         else if (pilih == 2)
         {
-            while (1)
+        while (1)
             {
                 tampilkanProduk();
 
@@ -246,7 +246,7 @@ void tambahProduk()
                 printf("\nMasukkan ID produk yang ingin diedit (0 untuk batal): ");
                 scanf("%d", &id);
 
-                if (id == 0)
+            if (id == 0)
                 {
                     printf("%sEdit produk dibatalkan. Kembali ke menu tambah/update.%s\n",
                            RED, RESET);
