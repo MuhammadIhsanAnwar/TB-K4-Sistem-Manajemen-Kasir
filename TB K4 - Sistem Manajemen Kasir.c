@@ -461,3 +461,50 @@ void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
 
     printf("%s==================================%s\n", BLUE, RESET);
 }
+
+// ===== SIMPAN KWITANSI KE FILE =====
+void simpanKwitansiFile(struct ItemTransaksi item[], int jumlahItem, int total,
+                        int potongan, int totalSetelahDiskon, int bayar, int kembali)
+{
+    int no = getNextKwitansiNumber();
+
+    char filename[50];
+    sprintf(filename, "kwitansi_%d.txt", no);
+
+    FILE *f = fopen(filename, "w");
+    if (!f)
+    {
+        printf("%s Gagal membuat file kwitansi: %s%s\n", RED, filename, RESET);
+        return;
+    }
+
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+
+    // --- ISI FILE KWITANSI ---
+    fprintf(f, "======= KWITANSI PEMBELIAN =======\n");
+    fprintf(f, "Tanggal: %02d-%02d-%04d  %02d:%02d:%02d\n",
+            t->tm_mday, t->tm_mon + 1, t->tm_year + 1900,
+            t->tm_hour, t->tm_min, t->tm_sec);
+
+    for (int i = 0; i < jumlahItem; i++)
+    {
+        int idx = cariProdukById(item[i].idProduk);
+        fprintf(f, "%-15s x%-3d = Rp %d\n",
+                products[idx].nama,
+                item[i].qty,
+                item[i].subtotal);
+    }
+
+    fprintf(f, "----------------------------------\n");
+    fprintf(f, "TOTAL SEBELUM DISKON : Rp %d\n", total);
+    fprintf(f, "POTONGAN DISKON      : Rp %d\n", potongan);
+    fprintf(f, "TOTAL SETELAH DISKON : Rp %d\n", totalSetelahDiskon);
+    fprintf(f, "BAYAR                : Rp %d\n", bayar);
+    fprintf(f, "KEMBALIAN            : Rp %d\n", kembali);
+    fprintf(f, "==================================\n");
+
+    fclose(f);
+
+    printf("\n%s File kwitansi berhasil dibuat: %s%s\n", GREEN, filename, RESET);
+}
