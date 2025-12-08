@@ -360,7 +360,7 @@ void hapusProduk()
     int idx = cariProdukById(id);
     if (idx == -1)
     {
-    printf("%sProduk tidak ditemukan!%s\n", RED, RESET);
+        printf("%sProduk tidak ditemukan!%s\n", RED, RESET);
         return;
     }
 
@@ -370,7 +370,7 @@ void hapusProduk()
     }
 
     jumlahProduk--;
-    simpanProduk()
+    simpanProduk();
     printf("%sProduk berhasil dihapus!%s\n", GREEN, RESET);
 }
 
@@ -381,7 +381,7 @@ int getNextKwitansiNumber()
     char filename[50];
     FILE *f;
 
-    while (1)
+while (1)
     {
         sprintf(filename, "kwitansi_%d.txt", i);
         f = fopen(filename, "r");
@@ -391,7 +391,7 @@ int getNextKwitansiNumber()
             return i;
         }
 
-        fclose(f);
+        fclose(f)
         i++;
     }
 }
@@ -403,7 +403,7 @@ int getNextLaporanNumber()
     char filename[50];
     FILE *f;
 
-    while (1)
+while (1)
     {
         sprintf(filename, "laporan_transaksi_%d.txt", i);
         f = fopen(filename, "r");
@@ -411,7 +411,7 @@ int getNextLaporanNumber()
         {
             return i;
         }
-        fclose(f);
+        fclose(f)
         i++;
     }
 }
