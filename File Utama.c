@@ -756,7 +756,7 @@ void laporanTransaksi()
             {
                 if (strncmp(line, "Tanggal:", 8) == 0)
                 {
-                    // Potong newline jika ada
+                    // POTONG NEWLINE JIKA ADA
                     char *newline = strchr(line + 9, '\n');
                     if (newline)
                         *newline = '\0';
@@ -822,7 +822,7 @@ void laporanTransaksi()
 
     fclose(out);
 
-    // Pesan sukses ke layar: hijau
+    // PESAN SUKSES KE LAYAR
     printf("\n%s File laporan berhasil dibuat: %s%s\n", GREEN, filename, RESET);
 }
 
