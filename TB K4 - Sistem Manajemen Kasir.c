@@ -144,23 +144,23 @@ void tampilkanSemuaProduk()
     printf("%s---------------------------------------------------------------------------%s\n",
            BLUE, RESET);
 
-for (int i = 0; i < jumlahProduk; i++)
+    for (int i = 0; i < jumlahProduk; i++)
     {
         printf("%-5d %-50s Rp %-10d %-10d\n",
-               products[i].id
+               products[i].id,
                products[i].nama,
                products[i].harga,
                products[i].stok);
     }
 
     printf("%s---------------------------------------------------------------------------%s\n",
-           BLUE, RESET)
+           BLUE, RESET);
 }
 
 // ===== EDIT PRODUK =====
 void tambahProduk()
 {
-    while (1)
+while (1)
     {
         int pilih;
 
@@ -172,8 +172,8 @@ void tambahProduk()
         printf("Pilih: ");
         scanf("%d", &pilih);
 
-        if (pilih == 3)
-            return;
+    if (pilih == 3)
+    return;
 
         // ===== TAMBAH PRODUK BARU =====
         if (pilih == 1)
