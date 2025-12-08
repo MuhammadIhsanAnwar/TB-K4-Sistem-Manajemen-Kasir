@@ -256,7 +256,7 @@ void tambahProduk()
                 int idx = cariProdukById(id);
                 if (idx == -1)
                 {
-                    printf("%sProduk tidak ditemukan!%s\n", RED, RESET)
+                    printf("%sProduk tidak ditemukan!%s\n", RED, RESET);
                     continue;
                 }
 
@@ -296,7 +296,7 @@ void tambahProduk()
                         scanf("%d", &hargaBaru);
                         if (hargaBaru == 0)
                         {
-                        printf("%sEdit harga dibatalkan.%s\n", RED, RESET);
+                            printf("%sEdit harga dibatalkan.%s\n", RED, RESET);
                             continue;
                         }
                         products[idx].harga = hargaBaru;
@@ -346,7 +346,7 @@ void tambahProduk()
 
         else
         {
-        printf("%sPilihan tidak valid!%s\n", RED, RESET);
+            printf("%sPilihan tidak valid!%s\n", RED, RESET);
         }
     }
 }
@@ -360,7 +360,7 @@ void hapusProduk()
     int idx = cariProdukById(id);
     if (idx == -1)
     {
-        printf("%sProduk tidak ditemukan!%s\n", RED, RESET);
+    printf("%sProduk tidak ditemukan!%s\n", RED, RESET);
         return;
     }
 
@@ -370,7 +370,7 @@ void hapusProduk()
     }
 
     jumlahProduk--;
-    simpanProduk();
+    simpanProduk()
     printf("%sProduk berhasil dihapus!%s\n", GREEN, RESET);
 }
 
