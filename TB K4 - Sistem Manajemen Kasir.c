@@ -107,18 +107,17 @@ int cariProdukById(int id)
 // ===== MENAMPILKAN PRODUK =====
 void tampilkanProduk()
 {
-    printf("\n%s%s%s============================= DAFTAR PRODUK =============================%s\n",
+printf("\n%s%s%s============================= DAFTAR PRODUK =============================%s\n",
            BOLD, UNDERLINE, MAGENTA, RESET);
-    printf("\n");
-    printf("%s%-5s %-50s %-10s %-10s%s\n",
+printf("\n");
+printf("%s%-5s %-50s %-10s %-10s%s\n",
            BOLD, "ID", "Nama", "Harga", "Stok", RESET);
-
-    printf("%s---------------------------------------------------------------------------%s\n",
+printf("%s---------------------------------------------------------------------------%s\n",
            BLUE, RESET);
 
-    for (int i = 0; i < jumlahProduk; i++)
+for (int i = 0; i < jumlahProduk; i++)
     {
-        printf("%s%-5d %-50s Rp %-10d %-10d%s\n",
+printf("%s%-5d %-50s Rp %-10d %-10d%s\n",
                WHITE,
                products[i].id,
                products[i].nama,
@@ -126,8 +125,7 @@ void tampilkanProduk()
                products[i].stok,
                RESET);
     }
-
-    printf("%s---------------------------------------------------------------------------%s\n",
+printf("%s---------------------------------------------------------------------------%s\n",
            BLUE, RESET);
 }
 
