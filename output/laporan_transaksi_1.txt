@@ -1,0 +1,9 @@
+========== LAPORAN TRANSAKSI ==========
+
+1. File: kwitansi_1.txt
+   Tanggal : 08-12-2025  07:02:43
+   Total   : Rp 20000
+
+JUMLAH TRANSAKSI : 1
+TOTAL PENDAPATAN : Rp 20000
+=========================================

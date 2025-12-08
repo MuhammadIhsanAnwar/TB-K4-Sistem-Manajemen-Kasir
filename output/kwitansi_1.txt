@@ -1,0 +1,10 @@
+======= KWITANSI PEMBELIAN =======
+Tanggal: 08-12-2025  07:02:43
+Makan           x20  = Rp 20000
+----------------------------------
+TOTAL SEBELUM DISKON : Rp 20000
+POTONGAN DISKON      : Rp 0
+TOTAL SETELAH DISKON : Rp 20000
+BAYAR                : Rp 20000
+KEMBALIAN            : Rp 0
+==================================

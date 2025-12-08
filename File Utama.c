@@ -1,5 +1,5 @@
 // Tugas Besar Kelompok 4 - Sistem Manajemen Kasir
-// 1. Muhammad Ihsan Anwar - 251402044 
+// 1. Muhammad Ihsan Anwar - 251402044
 // 2. Nadine Tantiara Hutagaol - 251402050
 // 3. Rizky Cristian Fero Sihombing - 251402056
 // 4. Juda Benhur Turnip - 251402096
@@ -17,23 +17,23 @@
 #include <string.h>
 
 // ===== WARNA ANSI =====
-#define RESET   "\x1b[0m"
-#define BOLD    "\x1b[1m"
+#define RESET "\x1b[0m"
+#define BOLD "\x1b[1m"
 #define UNDERLINE "\x1b[4m"
 
-#define RED     "\x1b[31m"
-#define GREEN   "\x1b[32m"
-#define YELLOW  "\x1b[33m"
-#define BLUE    "\x1b[34m"
+#define RED "\x1b[31m"
+#define GREEN "\x1b[32m"
+#define YELLOW "\x1b[33m"
+#define BLUE "\x1b[34m"
 #define MAGENTA "\x1b[35m"
-#define CYAN    "\x1b[36m"
-#define WHITE   "\x1b[37m"
-#define ORANGE  "\x1b[38;5;208m"   
+#define CYAN "\x1b[36m"
+#define WHITE "\x1b[37m"
+#define ORANGE "\x1b[38;5;208m"
 
-#define BG_RED    "\x1b[41m"
-#define BG_GREEN  "\x1b[42m"
+#define BG_RED "\x1b[41m"
+#define BG_GREEN "\x1b[42m"
 #define BG_YELLOW "\x1b[43m"
-#define BG_BLUE   "\x1b[44m"
+#define BG_BLUE "\x1b[44m"
 
 // ===== STRUKTUR DATA =====
 struct Product
@@ -54,11 +54,11 @@ struct ItemTransaksi
 struct Product products[100];
 int jumlahProduk = 0;
 
-// ====== KERANJANG GLOBAL - TIDAK HILANG WALAU KELUAR KE MENU UTAMA ======
+// ====== KERANJANG GLOBAL - TIDAK HILANG JIKA KELUAR KE MENU UTAMA ======
 struct ItemTransaksi keranjang[50];
 int jumlahItem = 0;
 
-// ===== INPUT FILE PRODUK =====
+// ===== MEMBUKA FILE PRODUK =====
 void loadProduk()
 {
     FILE *f = fopen("produk.txt", "r");
@@ -76,6 +76,8 @@ void loadProduk()
     }
     fclose(f);
 }
+
+// ===== INPUT FILE PRODUK =====
 
 void simpanProduk()
 {
@@ -133,15 +135,15 @@ void tampilkanSemuaProduk()
 {
     printf("\n%s%s%s===================== DAFTAR PRODUK =====================%s\n",
            BOLD, UNDERLINE, MAGENTA, RESET);
-    
-    printf("\n"); 
+
+    printf("\n");
 
     printf("%s%-5s %-20s %-10s %-10s%s\n",
            BOLD, "ID", "Nama", "Harga", "Stok", RESET);
 
     printf("%s-------------------------------------------------------%s\n",
            BLUE, RESET);
-           
+
     for (int i = 0; i < jumlahProduk; i++)
     {
         printf("%-5d %-20s Rp %-10d %-10d\n",
@@ -243,7 +245,7 @@ void tambahProduk()
 
                 while (1)
                 {
-  
+
                     printf("\n%s%s%s=== EDIT PRODUK (ID %d - %s) ===%s\n",
                            BOLD, UNDERLINE, MAGENTA, products[idx].id, products[idx].nama, RESET);
                     printf("1. Edit Nama Produk\n");
@@ -355,7 +357,7 @@ void hapusProduk()
     printf("%sProduk berhasil dihapus!%s\n", GREEN, RESET);
 }
 
-// ===== OUTPUT KWITANSI =====
+// ===== OUTPUT FILE KWITANSI =====
 int getNextKwitansiNumber()
 {
     int i = 1;
@@ -377,6 +379,7 @@ int getNextKwitansiNumber()
     }
 }
 
+// ==== OUTPUT LAPORAN TRANSAKSI =====
 int getNextLaporanNumber()
 {
     int i = 1;
@@ -396,6 +399,7 @@ int getNextLaporanNumber()
     }
 }
 
+// ==== TAMPILKAN KWITANSI KE LAYAR =====
 void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
                        int potongan, int totalSetelahDiskon, int bayar, int kembali)
 {
@@ -425,12 +429,15 @@ void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
     printf("%sTOTAL SEBELUM DISKON : %sRp %d%s\n", BOLD, YELLOW, total, RESET);
     printf("%sPOTONGAN DISKON      : %sRp %d%s\n", BOLD, GREEN, potongan, RESET);
     printf("%sTOTAL SETELAH DISKON : %s%sRp %d%s%s\n",
-           BOLD, BG_GREEN, WHITE, totalSetelahDiskon, RESET, RESET); 
+           BOLD, BG_GREEN, WHITE, totalSetelahDiskon, RESET, RESET);
     printf("%sBAYAR                : %sRp %d%s\n", BOLD, WHITE, bayar, RESET);
 
-    if (kembali >= 0) {
+    if (kembali >= 0)
+    {
         printf("%sKEMBALIAN            : %sRp %d%s\n", BOLD, GREEN, kembali, RESET);
-    } else {
+    }
+    else
+    {
         printf("%sKEMBALIAN            : %sRp %d%s %s(kelebihan bayar)%s\n",
                BOLD, RED, kembali, RESET, YELLOW, RESET);
     }
@@ -438,6 +445,7 @@ void tampilkanKwitansi(struct ItemTransaksi item[], int jumlahItem, int total,
     printf("%s==================================%s\n", BLUE, RESET);
 }
 
+// ===== SIMPAN KWITANSI KE FILE =====
 void simpanKwitansiFile(struct ItemTransaksi item[], int jumlahItem, int total,
                         int potongan, int totalSetelahDiskon, int bayar, int kembali)
 {
@@ -447,7 +455,8 @@ void simpanKwitansiFile(struct ItemTransaksi item[], int jumlahItem, int total,
     sprintf(filename, "kwitansi_%d.txt", no);
 
     FILE *f = fopen(filename, "w");
-    if (!f) {
+    if (!f)
+    {
         printf("%s Gagal membuat file kwitansi: %s%s\n", RED, filename, RESET);
         return;
     }
@@ -455,7 +464,7 @@ void simpanKwitansiFile(struct ItemTransaksi item[], int jumlahItem, int total,
     time_t now = time(NULL);
     struct tm *t = localtime(&now);
 
-    // --- ISI FILE: TANPA WARNA (POLIND) ---
+    // --- ISI FILE KWITANSI ---
     fprintf(f, "======= KWITANSI PEMBELIAN =======\n");
     fprintf(f, "Tanggal: %02d-%02d-%04d  %02d:%02d:%02d\n",
             t->tm_mday, t->tm_mon + 1, t->tm_year + 1900,
@@ -648,7 +657,7 @@ void mulaiTransaksi()
         }
     }
 
-    // === Hitung total & diskon ===
+    // === HITUNG TOTAL DAN DISKON ===
     int total = 0;
     for (int i = 0; i < jumlahItem; i++)
         total += keranjang[i].subtotal;
@@ -669,7 +678,7 @@ void mulaiTransaksi()
     printf("Diskon %.0f%% -> Potongan: %d\n", diskon, potongan);
     printf("%sTotal setelah diskon: %d%s\n", GREEN, totalDiskon, RESET);
 
-    // === Input pembayaran ===
+    // === INPUT UANG PEMBAYARAN ===
     int bayar;
     while (1)
     {
@@ -685,9 +694,12 @@ void mulaiTransaksi()
     }
 
     int kembali = bayar - totalDiskon;
-    if (kembali >= 0) {
+    if (kembali >= 0)
+    {
         printf("%sKembalian: %d%s\n", GREEN, kembali, RESET);
-    } else {
+    }
+    else
+    {
         printf("%sKembalian: %d (kelebihan bayar)%s\n", YELLOW, kembali, RESET);
     }
 
@@ -717,7 +729,7 @@ void laporanTransaksi()
     int jumlahTransaksi = 0;
     long totalPendapatan = 0;
 
-    // Untuk menyimpan laporan sementara
+    // UNTUK MENYIMPAN DATA TRANSAKSI SEMENTARA
     struct
     {
         char tanggal[100];
@@ -746,7 +758,8 @@ void laporanTransaksi()
                 {
                     // Potong newline jika ada
                     char *newline = strchr(line + 9, '\n');
-                    if (newline) *newline = '\0';
+                    if (newline)
+                        *newline = '\0';
                     strcpy(tanggal, line + 9);
                 }
                 if (strstr(line, "TOTAL SETELAH DISKON") != NULL)
@@ -787,12 +800,13 @@ void laporanTransaksi()
     sprintf(filename, "laporan_transaksi_%d.txt", no);
 
     FILE *out = fopen(filename, "w");
-    if (!out) {
+    if (!out)
+    {
         printf("%s Gagal membuat file laporan.%s\n", RED, RESET);
         return;
     }
 
-    // Isi file: TANPA WARNA (polos & print-friendly)
+    // ISI FILE LAPORAN TRANSAKSI
     fprintf(out, "========== LAPORAN TRANSAKSI ==========\n\n");
 
     for (int i = 0; i < jumlahTransaksi; i++)
@@ -819,7 +833,7 @@ void menuUtama()
     {
         int pilih;
 
-        printf("\n\n");
+        printf("\n");
         printf("%s%s        Selamat Datang di Kasir SnacknSip%s\n",
                BOLD, YELLOW, RESET);
         printf("%s%s  Sistem Manajemen Kasir - Cepat, Mudah, Profesional%s\n",
