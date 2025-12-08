@@ -508,3 +508,304 @@ void simpanKwitansiFile(struct ItemTransaksi item[], int jumlahItem, int total,
 
     printf("\n%s File kwitansi berhasil dibuat: %s%s\n", GREEN, filename, RESET);
 }
+
+// ===== MENU TRANSAKSI =====
+void mulaiTransaksi()
+{
+    int running = 1;
+
+    while (running)
+    {
+        int pilih;
+
+        printf("\n%s%s%s=== MENU TRANSAKSI ===%s\n",
+               BOLD, UNDERLINE, MAGENTA, RESET);
+        printf("1. Tambah Produk ke Keranjang\n");
+        printf("2. Lihat Keranjang\n");
+        printf("3. Hapus Item dari Keranjang\n");
+        printf("4. Selesai & Bayar\n");
+        printf("5. Kembali ke Menu Utama\n");
+        printf("6. Lihat Produk\n");
+        printf("Pilih: ");
+        scanf("%d", &pilih);
+
+        if (pilih == 5)
+        {
+            printf("\n%sKembali ke menu utama.%s\n", YELLOW, RESET);
+            return;
+        }
+
+        if (pilih == 6)
+        {
+            tampilkanSemuaProduk();
+            continue;
+        }
+
+        if (pilih == 1)
+        {
+            while (1)
+            {
+                int id, qty;
+                printf("\nMasukkan ID produk (0 untuk selesai): ");
+                scanf("%d", &id);
+
+                if (id == 0)
+                    break;
+
+                int idx = cariProdukById(id);
+                if (idx == -1)
+                {
+                    printf("%sProduk tidak ditemukan!%s\n", RED, RESET);
+                    continue;
+                }
+
+                printf("Masukkan jumlah: ");
+                scanf("%d", &qty);
+
+                if (qty > products[idx].stok)
+                {
+                    printf("%sStok tidak cukup!%s\n", RED, RESET);
+                    continue;
+                }
+
+                products[idx].stok -= qty;
+
+                keranjang[jumlahItem].idProduk = id;
+                keranjang[jumlahItem].qty = qty;
+                keranjang[jumlahItem].subtotal = products[idx].harga * qty;
+                jumlahItem++;
+
+                printf("%s%s sejumlah %d berhasil ditambahkan ke keranjang.%s\n",
+                       GREEN, products[idx].nama, qty, RESET);
+            }
+        }
+
+        else if (pilih == 2)
+        {
+            if (jumlahItem == 0)
+            {
+                printf("\n%sKeranjang masih kosong.%s\n", YELLOW, RESET);
+            }
+            else
+            {
+
+                printf("\n%s%s%s=== ISI KERANJANG ===%s\n",
+                       BOLD, UNDERLINE, MAGENTA, RESET);
+                for (int i = 0; i < jumlahItem; i++)
+                {
+                    int idx = cariProdukById(keranjang[i].idProduk);
+                    printf("%d. %s x%d = Rp %d\n",
+                           i + 1,
+                           products[idx].nama,
+                           keranjang[i].qty,
+                           keranjang[i].subtotal);
+                }
+            }
+        }
+
+        else if (pilih == 3)
+        {
+            if (jumlahItem == 0)
+            {
+                printf("\n%sKeranjang kosong.%s\n", YELLOW, RESET);
+                continue;
+            }
+
+            int hapus;
+            while (1)
+            {
+
+                printf("\n%s%s%s=== HAPUS ITEM ===%s\n",
+                       BOLD, UNDERLINE, MAGENTA, RESET);
+                printf("0. Batal\n");
+
+                for (int i = 0; i < jumlahItem; i++)
+                {
+                    int idx = cariProdukById(keranjang[i].idProduk);
+                    printf("%d. %s x%d = Rp %d\n",
+                           i + 1,
+                           products[idx].nama,
+                           keranjang[i].qty,
+                           keranjang[i].subtotal);
+                }
+
+                printf("Pilih item: ");
+                scanf("%d", &hapus);
+
+                if (hapus == 0)
+                    break;
+
+                if (hapus < 1 || hapus > jumlahItem)
+                {
+                    printf("%sPilihan tidak valid!%s\n", RED, RESET);
+                    continue;
+                }
+
+                int idxH = hapus - 1;
+                int idp = keranjang[idxH].idProduk;
+                int idxP = cariProdukById(idp);
+
+                products[idxP].stok += keranjang[idxH].qty;
+
+                for (int i = idxH; i < jumlahItem - 1; i++)
+                    keranjang[i] = keranjang[i + 1];
+
+                jumlahItem--;
+
+                printf("%sItem dihapus.%s\n", GREEN, RESET);
+                break;
+            }
+        }
+
+        else if (pilih == 4)
+        {
+            if (jumlahItem == 0)
+            {
+                printf("%sKeranjang kosong.%s\n", YELLOW, RESET);
+                continue;
+            }
+
+            running = 0;
+        }
+
+        else
+        {
+            printf("%sPilihan tidak valid!%s\n", RED, RESET);
+        }
+    }
+
+// === HITUNG TOTAL DAN DISKON ===
+    int total = 0;
+    for (int i = 0; i < jumlahItem; i++)
+        total += keranjang[i].subtotal;
+
+    printf("\n%sTotal belanja: %d%s\n", BOLD, total, RESET);
+
+    float diskon = 0;
+    if (total > 150000)
+        diskon = 5;
+    else if (total > 100000)
+        diskon = 3;
+    else if (total > 75000)
+        diskon = 2;
+
+    int potongan = (int)(total * (diskon / 100));
+    int totalDiskon = total - potongan;
+
+    printf("Diskon %.0f%% -> Potongan: %d\n", diskon, potongan);
+    printf("%sTotal setelah diskon: %d%s\n", GREEN, totalDiskon, RESET);
+
+    // === INPUT UANG PEMBAYARAN ===
+    int bayar;
+    while (1)
+    {
+        printf("Uang bayar: ");
+        scanf("%d", &bayar);
+
+        if (bayar < totalDiskon)
+        {
+            printf("%sUang kurang!%s\n", RED, RESET);
+        }
+        else
+            break;
+    }
+
+    int kembali = bayar - totalDiskon;
+    if (kembali >= 0)
+    {
+        printf("%sKembalian: %d%s\n", GREEN, kembali, RESET);
+    }
+    else
+    {
+        printf("%sKembalian: %d (kelebihan bayar)%s\n", YELLOW, kembali, RESET);
+    }
+
+    simpanProduk();
+
+    tampilkanKwitansi(keranjang, jumlahItem, total, potongan,
+                      totalDiskon, bayar, kembali);
+
+    simpanKwitansiFile(keranjang, jumlahItem, total, potongan,
+                       totalDiskon, bayar, kembali);
+
+    jumlahItem = 0; // RESET KERANJANG
+}
+// ===== OUTPUT LAPORAN TRANSAKSI =====
+void laporanTransaksi()
+{
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(".");
+
+    if (!d)
+    {
+        printf("%s❌ Gagal membuka folder.%s\n", RED, RESET);
+        return;
+    }
+
+    int jumlahTransaksi = 0;
+    long totalPendapatan = 0;
+
+    // UNTUK MENYIMPAN DATA TRANSAKSI SEMENTARA
+    struct
+    {
+        char tanggal[100];
+        int totalAkhir;
+        char namaFile[50];
+    } data[500];
+
+    printf("\n%s%s%s====== LAPORAN TRANSAKSI ======%s\n",
+           BOLD, UNDERLINE, MAGENTA, RESET);
+
+    while ((dir = readdir(d)) != NULL)
+    {
+        if (strncmp(dir->d_name, "kwitansi_", 9) == 0)
+        {
+            FILE *f = fopen(dir->d_name, "r");
+            if (!f)
+                continue;
+
+            char line[200];
+            char tanggal[100] = "-";
+            int totalAkhir = 0;
+
+            while (fgets(line, sizeof(line), f))
+            {
+                if (strncmp(line, "Tanggal:", 8) == 0)
+                {
+                    // POTONG NEWLINE JIKA ADA
+                    char *newline = strchr(line + 9, '\n');
+                    if (newline)
+                        *newline = '\0';
+                    strcpy(tanggal, line + 9);
+                }
+                if (strstr(line, "TOTAL SETELAH DISKON") != NULL)
+                {
+                    char *ptr = strstr(line, "Rp");
+                    if (ptr)
+                        sscanf(ptr + 2, "%d", &totalAkhir);
+                }
+            }
+
+            fclose(f);
+
+            strcpy(data[jumlahTransaksi].tanggal, tanggal);
+            data[jumlahTransaksi].totalAkhir = totalAkhir;
+            strcpy(data[jumlahTransaksi].namaFile, dir->d_name);
+
+            totalPendapatan += totalAkhir;
+            jumlahTransaksi++;
+        }
+    }
+    closedir(d);
+
+    for (int i = 0; i < jumlahTransaksi; i++)
+    {
+        printf("%d. File: %s\n", i + 1, data[i].namaFile);
+        printf("   Tanggal : %s\n", data[i].tanggal);
+        printf("   Total   : Rp %d\n\n", data[i].totalAkhir);
+    }
+
+    printf("%sJUMLAH TRANSAKSI : %s%d%s\n", BOLD, YELLOW, jumlahTransaksi, RESET);
+    printf("%sTOTAL PENDAPATAN : %sRp %ld%s\n", BOLD, GREEN, totalPendapatan, RESET);
+    printf("%s================================%s\n", BLUE, RESET);
