@@ -8,43 +8,13 @@
 8|SilverQueen Chunky Bar 65g|14500|10
 9|Koko Krunch Bar Chocolate 25g|6500|20
 10|BenBen Wafer Chocolate 20g|3000|30
-11|Roma Malkist Abon 135g|11000|15
-12|Momogi Jagung Bakar 60g|5000|25
-13|Nissin Biskuit Kelapa 250g|12500|15
-14|Oreo Chocolate Sandwich 137g|14500|20
-15|Better Sandwich Biscuits 130g|9000|20
-16|Astor Wafer Roll Chocolate 150g|14000|10
-17|Doritos Snack Jagung Bakar 55g|8000|15
-18|Cheetos Snack Keju 120g|12800|20
-19|Tango Wafer Vanilla 240g|25700|10
-20|Floaty Snack Terserah 60g|9000|15
-21|Pocky Cookies and Cream 40g|9000|20
-22|Qtela Keripik Singkong Balado 180g|15200|15
-23|Pringles Potato Crips Original 102g|26100|10
-24|Nextar Brownies Chocolate 90g|7000|25
-25|Oishi Snack Sponge Crunch Chocolate 100g|13000|10
-26|Olatte Pear Can 240ml|11500|15
-27|YOU-C1000 Health Drink Vitamin Mango 140ml|7500|15
-28|Sprite Soft Drink Can 250ml|5900|10
-29|Fanta Soft Drink Strawberry Can 250ml|5900|10
-30|Buavita Juice Apple 1000ml|32700|15
-31|Lotte Milkis Melon 250ml|11100|10
-32|Mogu Mogu Lychee 320ml|13100|20
-33|Good Day Coffee Cappuccino 250ml|7400|15
-34|Adem Sari Ching Ku 325ml|6900|15
-35|Espe Larutan Penyegar 320ml|6500|10
-36|Hydro Coco Natural Health Drink 330ml|12900|20
-37|Oronamin C Minuman Bervitamin 120ml|5500|10
-38|Nipis Madu Lime Soda 330ml|4500|4500|20
-39|Hemaviton Health Drink Vitamin C1000 330ml|8200|10
-40|Coca Cola Soft Drink 390ml|5500|20
-41|Extra Joss  Energy Drink Ultimate 250ml|7900|15
-42|Kratingdaeng Energy Drink Super 150ml|7500|10
-43|Iso Plus Isotonik 350ml|3500|20
-44|Red Bull Gold Energy Drink Can 250ml|9400|15
-45|M-150 Minuman Energy Can 250ml|8500|10
-46|Green Sands Soft Drink Lemon & Grape 250ml|6500|20
-47|Pocari Sweat Isotonik 350ml|7200|20
-48|Mizone Mood Up Minuman Isotonik 500ml|6500|20
-49|Amunizer Drink Vitamin C-1000Mg 140ml|9400|15
-50|Red Bull Energy Drink 250ml|25400|10
+11|Olatte Pear Can 240ml|11500|15
+12|YOU-C1000 Health Drink Vitamin Mango 140ml|7500|15
+13|Sprite Soft Drink Can 250ml|5900|10
+14|Fanta Soft Drink Strawberry Can 250ml|5900|10
+15|Buavita Juice Apple 1000ml|32700|15
+16|Lotte Milkis Melon 250ml|11100|10
+17|Mogu Mogu Lychee 320ml|13100|20
+18|Good Day Coffee Cappuccino 250ml|7400|15
+19|Adem Sari Ching Ku 325ml|6900|15
+20|Espe Larutan Penyegar 320ml|6500|10
