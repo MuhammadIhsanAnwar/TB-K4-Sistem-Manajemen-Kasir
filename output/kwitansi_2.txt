@@ -1,0 +1,11 @@
+======= KWITANSI PEMBELIAN =======
+Tanggal: 08-12-2025  10:37:53
+Taro Net Seaweed 70g x5   = Rp 47500
+Richeese Krip Krip Chicken 75g x7   = Rp 59500
+----------------------------------
+TOTAL SEBELUM DISKON : Rp 107000
+POTONGAN DISKON      : Rp 3210
+TOTAL SETELAH DISKON : Rp 103790
+BAYAR                : Rp 150000
+KEMBALIAN            : Rp 46210
+==================================

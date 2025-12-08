@@ -1,0 +1,17 @@
+========== LAPORAN TRANSAKSI ==========
+
+1. File: kwitansi_1.txt
+   Tanggal : 08-12-2025  10:36:48
+   Total   : Rp 248520
+
+2. File: kwitansi_2.txt
+   Tanggal : 08-12-2025  10:37:53
+   Total   : Rp 103790
+
+3. File: kwitansi_3.txt
+   Tanggal : 08-12-2025  10:39:00
+   Total   : Rp 217455
+
+JUMLAH TRANSAKSI : 3
+TOTAL PENDAPATAN : Rp 569765
+=========================================

@@ -61,13 +61,13 @@ int jumlahItem = 0;
 // ===== MEMBUKA FILE PRODUK =====
 void loadProduk()
 {
-    FILE *f = fopen("produk.txt", "r");
+    FILE *f = fopen("produk.txt|", "r");
     if (!f)
         return;
 
     while (!feof(f))
     {
-        fscanf(f, "%d|%49[^|]|%d|%d\n",
+        fscanf(f, "%d|%49[^|]%d|%d\n",
                &products[jumlahProduk].id,
                products[jumlahProduk].nama,
                &products[jumlahProduk].harga,
@@ -192,6 +192,23 @@ void tambahProduk()
             if (strcmp(p.nama, "0") == 0)
             {
                 printf("%sTambah produk dibatalkan.%s\n", RED, RESET);
+                continue;
+            }
+
+            // CEK DUPLIKAT NAMA PRODUK
+            int dupe = 0;
+            for (int i = 0; i < jumlahProduk; i++)
+            {
+                if (strcasecmp(products[i].nama, p.nama) == 0)
+                {
+                    dupe = 1;
+                    break;
+                }
+            }
+
+            if (dupe)
+            {
+                printf("%sProduk dengan nama tersebut sudah ada!%s\n", RED, RESET);
                 continue;
             }
 

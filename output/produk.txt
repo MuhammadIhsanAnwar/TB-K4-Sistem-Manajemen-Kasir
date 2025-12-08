@@ -1,6 +1,6 @@
 1|Chitato Sapi Panggang 68g|12000|20
-2|Richeese Krip Krip Chicken 75g|8500|20
-3|Taro Net Seaweed 70g|9500|20
+2|Richeese Krip Krip Chicken 75g|8500|13
+3|Taro Net Seaweed 70g|9500|15
 4|Piattos BBQ 75g|10000|15
 5|Lays Honey Butter 68g|13500|10
 6|Richeese Nabati Wafer 120g|10500|20
@@ -12,9 +12,10 @@
 12|YOU-C1000 Health Drink Vitamin Mango 140ml|7500|15
 13|Sprite Soft Drink Can 250ml|5900|10
 14|Fanta Soft Drink Strawberry Can 250ml|5900|10
-15|Buavita Juice Apple 1000ml|32700|15
+15|Buavita Juice Apple 1000ml|32700|0
 16|Lotte Milkis Melon 250ml|11100|10
 17|Mogu Mogu Lychee 320ml|13100|20
 18|Good Day Coffee Cappuccino 250ml|7400|15
 19|Adem Sari Ching Ku 325ml|6900|15
 20|Espe Larutan Penyegar 320ml|6500|10
+21|Espe Larutan Penyegar 320ml|6500|10

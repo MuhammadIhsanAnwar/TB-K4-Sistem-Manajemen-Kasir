@@ -1,0 +1,10 @@
+======= KWITANSI PEMBELIAN =======
+Tanggal: 08-12-2025  10:39:00
+Buavita Juice Apple 1000ml x7   = Rp 228900
+----------------------------------
+TOTAL SEBELUM DISKON : Rp 228900
+POTONGAN DISKON      : Rp 11445
+TOTAL SETELAH DISKON : Rp 217455
+BAYAR                : Rp 250000
+KEMBALIAN            : Rp 32545
+==================================
