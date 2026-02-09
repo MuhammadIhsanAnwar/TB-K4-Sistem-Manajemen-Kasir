@@ -674,7 +674,7 @@ void mulaiTransaksi()
         }
     }
 
-// === HITUNG TOTAL DAN DISKON ===
+    // === HITUNG TOTAL DAN DISKON ===
     int total = 0;
     for (int i = 0; i < jumlahItem; i++)
         total += keranjang[i].subtotal;
@@ -810,7 +810,7 @@ void laporanTransaksi()
     printf("%sTOTAL PENDAPATAN : %sRp %ld%s\n", BOLD, GREEN, totalPendapatan, RESET);
     printf("%s================================%s\n", BLUE, RESET);
 
-// ====== SIMPAN KE FILE LAPORAN OTOMATIS ======
+    // ====== SIMPAN KE FILE LAPORAN OTOMATIS ======
     int no = getNextLaporanNumber();
 
     char filename[50];
